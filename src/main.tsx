@@ -7,7 +7,7 @@ import { BreakPanel } from './pages/BreakPanel'
 
 const isBreakWindow = new URLSearchParams(window.location.search).get('window') === 'break'
 const root = createRoot(document.getElementById('root')!)
-root.render(<main className="break-panel"><p role="status">Starting Restna…</p></main>)
+root.render(<main className="break-panel"><p role="status">Starting Restnaa…</p></main>)
 void waitForDesktopReady().finally(() => {
   root.render(<StrictMode>{isBreakWindow ? <BreakPanel /> : <App />}</StrictMode>)
 })

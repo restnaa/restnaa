@@ -13,7 +13,7 @@ export function Settings({ appInfo, onSetupComplete }: { appInfo: AppInfoState; 
   const setup = view.status === 'ready' && !view.state.settings.onboardingCompleted
   return <>
     <PageHeader title="Settings" subtitle="A rhythm that fits your day." />
-    {setup && <aside className="setup-note"><strong>Make Restna yours.</strong> Choose your reminders and finish setup. Start on login is optional. Closing keeps reminders in the tray; Quit stops the app.</aside>}
+    {setup && <aside className="setup-note"><strong>Make Restnaa yours.</strong> Choose your reminders and finish setup. Start on login is optional. Closing keeps reminders in the tray; Quit stops the app.</aside>}
     {view.status === 'loading' && <p role="status">Loading your schedule…</p>}
     {view.status === 'error' && <p role="alert" className="error-message">{view.message}</p>}
     {view.status === 'ready' && <ScheduleForm initial={view.state.settings} onboarding={setup} onSaved={setup ? onSetupComplete : undefined} />}

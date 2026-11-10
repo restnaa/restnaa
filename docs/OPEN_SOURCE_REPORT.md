@@ -1,3 +1,5 @@
+> Historical record using the earlier Restna spelling. The correct current name is Restnaa. See [name correction](NAME_CORRECTION.md). Original build paths, hashes and evidence below are preserved.
+
 # Restna 0.1.3 open-source preparation report
 
 Date: 2026-11-10. Rename/source preparation authorized; MIT explicitly selected by the user. See OPEN_SOURCE_PLAN.md. Historical results are kept separate from current checks below.

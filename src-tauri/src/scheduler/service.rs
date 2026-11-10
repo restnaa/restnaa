@@ -10,7 +10,7 @@ use std::{
 };
 use tauri::{AppHandle, Emitter};
 
-pub const STORAGE_FAILURE: &str = "Scheduler stopped because local data could not be saved. Existing history has not been erased. Close Restna and check local storage before restarting.";
+pub const STORAGE_FAILURE: &str = "Scheduler stopped because local data could not be saved. Existing history has not been erased. Close Restnaa and check local storage before restarting.";
 
 #[derive(Clone, Debug, Serialize)]
 #[serde(tag = "kind", rename_all = "camelCase")]

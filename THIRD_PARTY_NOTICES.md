@@ -1,6 +1,6 @@
 # Third-party notices
 
-Restna project code is MIT licensed (LICENSE). Third-party components retain their own licenses. Lockfiles record exact versions; dependencies include their own source/license files. This is not a blanket relicensing or certification of all transitive dependencies.
+Restnaa project code is MIT licensed (LICENSE). Third-party components retain their own licenses. Lockfiles record exact versions; dependencies include their own source/license files. This is not a blanket relicensing or certification of all transitive dependencies.
 
 Runtime components include React/React DOM (MIT), @tauri-apps/api (MIT or Apache-2.0), Lucide (ISC plus upstream notices), Tauri/plugins (upstream MIT/Apache-2.0 terms), rusqlite (MIT), and SQLite (upstream public-domain dedication). Consult exact package licenses in the lockfile sources. Full bundled/transitive binary redistribution notices require review before a public binary release. Windows/WebView2 are separately licensed prerequisites.
 

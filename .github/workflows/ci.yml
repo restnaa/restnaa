@@ -31,5 +31,5 @@ jobs:
       - run: npm run package:windows
       - uses: actions/upload-artifact@v4
         with:
-          name: restna-windows-release-candidate
+          name: restnaa-windows-release-candidate
           path: release/

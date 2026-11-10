@@ -103,7 +103,7 @@ pub fn hide_break(app: &AppHandle) -> Result<(), String> {
                     },
                     Err(_) => super::warn(
                         &handle,
-                        "Could not hide the break window. Use the tray to quit Restna.",
+                        "Could not hide the break window. Use the tray to quit Restnaa.",
                     ),
                 }
             }

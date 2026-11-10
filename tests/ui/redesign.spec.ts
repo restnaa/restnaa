@@ -49,7 +49,7 @@ test('history day disclosure, native toggles and Quit retain actual command path
   await page.getByLabel('Start on login').check()
   expect(await commandCalls(page,'set_autostart_enabled')).toMatchObject([{args:{enabled:true}}])
   await page.getByRole('button',{name:'Refresh diagnostics'}).click()
-  await page.getByRole('button',{name:'Quit Restna completely'}).click()
+  await page.getByRole('button',{name:'Quit Restnaa completely'}).click()
   expect(await commandCalls(page,'quit_app')).toHaveLength(1)
 })
 

@@ -1,6 +1,6 @@
 mod support;
 use chrono::{Duration, NaiveTime};
-use restna_lib::{
+use restnaa_lib::{
     clock::Clock,
     scheduler::{engine::Engine, model::*},
     settings::Settings,

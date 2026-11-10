@@ -16,7 +16,7 @@ export default function App() {
     let active = true
     getAppInfo().then(
       info => { if (active) setAppInfo({ status: 'loaded', info }) },
-      () => { if (active) setAppInfo({ status: 'error', message: 'Desktop connection unavailable. Open Restna through the desktop app to check local storage.' }) },
+      () => { if (active) setAppInfo({ status: 'error', message: 'Desktop connection unavailable. Open Restnaa through the desktop app to check local storage.' }) },
     )
     getSettings().then(settings => { if (active && !navigated.current && !settings.onboardingCompleted) setPage('settings') }).catch(() => { /* Connection/storage errors are rendered by the screens. */ })
     return () => { active = false }

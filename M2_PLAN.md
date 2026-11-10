@@ -1,4 +1,4 @@
-> Historical PausePal record. Restna is the current name. Original names, versions and test evidence below are preserved; they do not certify the renamed build. See [open-source preparation](docs/OPEN_SOURCE_PLAN.md).
+> Historical PausePal record. Restnaa is the current name. Original names, versions and test evidence below are preserved; they do not certify the renamed build. See [open-source preparation](docs/OPEN_SOURCE_PLAN.md).
 
 # M2 scheduler implementation plan
 

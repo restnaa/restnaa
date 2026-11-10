@@ -127,8 +127,8 @@ pub async fn test_notification(
         Ok(crate::native::notifications::send(
             &app,
             state.settings.notification_enabled,
-            "Restna test reminder",
-            "A gentle reminder from Restna. Use the tray icon to open a current break.",
+            "Restnaa test reminder",
+            "A gentle reminder from Restnaa. Use the tray icon to open a current break.",
             None,
         ))
     })

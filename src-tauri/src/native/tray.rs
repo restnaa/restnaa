@@ -15,8 +15,8 @@ pub struct TrayControls {
 
 pub fn setup(app: &AppHandle) -> Result<(), String> {
     let build = || -> tauri::Result<()> {
-        let status = MenuItem::with_id(app, "status", "Restna — starting", false, None::<&str>)?;
-        let show = MenuItem::with_id(app, "show", "Show Restna", true, None::<&str>)?;
+        let status = MenuItem::with_id(app, "status", "Restnaa — starting", false, None::<&str>)?;
+        let show = MenuItem::with_id(app, "show", "Show Restnaa", true, None::<&str>)?;
         let open = MenuItem::with_id(app, "open", "Open current break", false, None::<&str>)?;
         let eye = MenuItem::with_id(app, "eye", "Take eye break", true, None::<&str>)?;
         let movement =
@@ -26,7 +26,7 @@ pub fn setup(app: &AppHandle) -> Result<(), String> {
         let pause120 = MenuItem::with_id(app, "pause120", "Pause 2 hours", true, None::<&str>)?;
         let resume = MenuItem::with_id(app, "resume", "Resume", false, None::<&str>)?;
         let settings = MenuItem::with_id(app, "settings", "Settings", true, None::<&str>)?;
-        let quit = MenuItem::with_id(app, "quit", "Quit Restna completely", true, None::<&str>)?;
+        let quit = MenuItem::with_id(app, "quit", "Quit Restnaa completely", true, None::<&str>)?;
         let separator = PredefinedMenuItem::separator(app)?;
         let menu = Menu::with_items(
             app,
@@ -36,7 +36,7 @@ pub fn setup(app: &AppHandle) -> Result<(), String> {
             ],
         )?;
         let mut builder = TrayIconBuilder::with_id("pausepal")
-            .tooltip("Restna")
+            .tooltip("Restnaa")
             .menu(&menu)
             .show_menu_on_left_click(false)
             .on_menu_event(|app, event| dispatch(app, event.id.as_ref()))
@@ -129,9 +129,9 @@ pub fn update(app: &AppHandle, state: &DashboardState) {
         RunStatus::Disabled => "Reminders disabled",
     };
     let text = if state.open_reminder.is_some() {
-        format!("Restna — {label} · break waiting")
+        format!("Restnaa — {label} · break waiting")
     } else {
-        format!("Restna — {label}")
+        format!("Restnaa — {label}")
     };
     if let Some(tray) = app.tray_by_id("pausepal") {
         let _ = tray.set_tooltip(Some(&text));

@@ -40,7 +40,7 @@ export function NativePreferences() {
     <div className="native-actions">
       {status && <button type="button" className="secondary-button" disabled={busy || !status.notificationEnabled} onClick={() => void run(testNotification)}><Play aria-hidden="true" />Send test reminder</button>}
       <button type="button" className="secondary-button" disabled={busy} onClick={() => void run(refresh)}><RefreshCw aria-hidden="true" />Refresh diagnostics</button>
-      <button type="button" className="secondary-button" disabled={busy} onClick={() => void run(quitApp)}><Power aria-hidden="true" />Quit Restna completely</button>
+      <button type="button" className="secondary-button" disabled={busy} onClick={() => void run(quitApp)}><Power aria-hidden="true" />Quit Restnaa completely</button>
     </div>
   </section>
 }

@@ -1,4 +1,4 @@
-//! Read-only Windows diagnostics scoped to Restna; never clears OS history.
+//! Read-only Windows diagnostics scoped to Restnaa; never clears OS history.
 #[cfg(windows)]
 fn main() {
     use windows::{core::HSTRING, UI::Notifications::ToastNotificationManager};

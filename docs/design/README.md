@@ -1,4 +1,4 @@
-> Historical design reference. The generated concept is retained locally and excluded from public source; it is not a shipped application asset. Current Restna visuals are code/SVG and local icons.
+> Historical design reference. The generated concept is retained locally and excluded from public source; it is not a shipped application asset. Current Restnaa visuals are code/SVG and local icons.
 
 # M1 design reference
 

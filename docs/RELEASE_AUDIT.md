@@ -1,4 +1,4 @@
-> Historical PausePal record. Restna is the current name. Original names, versions and test evidence below are preserved; they do not certify the renamed build. See [open-source preparation](OPEN_SOURCE_PLAN.md).
+> Historical PausePal record. Restnaa is the current name. Original names, versions and test evidence below are preserved; they do not certify the renamed build. See [open-source preparation](OPEN_SOURCE_PLAN.md).
 
 # PausePal 0.1.0 release audit — 2026-10-21
 

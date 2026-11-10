@@ -1,9 +1,9 @@
-# Restna — Product Requirements Document
+# Restnaa — Product Requirements Document
 
 Version: 1.0 | Platform: Windows-first desktop | Status: Development-ready MVP specification
 
 ## 1. Product summary
-Restna is an offline-first desktop wellness companion for screen-heavy workers. It provides gentle eye-rest and movement reminders, a small break window with completion/snooze/skip actions, quiet hours, tray controls, and minimal local progress history. It is not a medical product and gives no diagnosis or treatment advice.
+Restnaa is an offline-first desktop wellness companion for screen-heavy workers. It provides gentle eye-rest and movement reminders, a small break window with completion/snooze/skip actions, quiet hours, tray controls, and minimal local progress history. It is not a medical product and gives no diagnosis or treatment advice.
 
 **Promise:** Rest your eyes. Move your body. Keep your focus.
 
@@ -102,7 +102,7 @@ Choose pause for 30 min, 1 hour, 2 hours, until tomorrow, or manual pause. Persi
 - Avoid guilt-inducing 'failed' streaks. No health score or diagnosis.
 
 ### 7.5 Tray
-Show Restna; Take eye break; Take movement break; Pause [30m/1h/2h]; Resume; Settings; Quit.
+Show Restnaa; Take eye break; Take movement break; Pause [30m/1h/2h]; Resume; Settings; Quit.
 - Closing dashboard hides to tray. Quit terminates app.
 - Single-instance enforcement brings existing app forward instead of launching a second scheduler.
 
@@ -197,7 +197,7 @@ Test all cases, package NSIS exe, verify clean Windows installation/uninstall, t
 - Installed beta testers; weekly active users; percent with reminders enabled at day 7/day 30; snooze/skip/completion distribution; reminder delivery issues; reports of disruptive notifications. No passive transmission; gather feedback voluntarily.
 
 ## 14. Open decisions and defaults
-- Name Restna is provisional; check trademark/domain before public launch.
+- Name Restnaa is provisional; check trademark/domain before public launch.
 - Windows 10/11 support must be tested on clean machines, including WebView2 installation path.
 - Use notification click-to-open only where supported; tray is reliable fallback.
 - Start with fixed 5-minute snooze and configurable work schedule; adaptive/idle-aware scheduling later.
@@ -210,4 +210,4 @@ An installed user can start with zero account setup, configure both reminder typ
 
 The user explicitly requested automatic presentation of the existing break panel and default On. New and legacy profiles default showBreakWindow to true; explicit false persists. A newly due eligible reminder may show the existing single panel without activation or keyboard-focus changes. No always-on-top or forced locks. Notification and tray access remain fallbacks; explicit Take break/Open current break actions retain normal focus behavior. Closing/Esc does not complete a break and does not immediately reopen it; existing unanswered timeout applies.
 
-The user explicitly accepted Windows DND as best effort after observing an accepting shell hint while actual DND was On. Known blocked or unknown attention states suppress automatic panels; the accepting hint cannot prove DND off. Restna Pause, work hours and Quiet mode are authoritative; use them for guaranteed app quiet. Native notifications must be enabled, OS-denied notification states suppress panels, and no Windows preference is changed or bypass API used. Windows 10/11 remain the primary targets; non-Windows automatic presentation is not claimed verified.
+The user explicitly accepted Windows DND as best effort after observing an accepting shell hint while actual DND was On. Known blocked or unknown attention states suppress automatic panels; the accepting hint cannot prove DND off. Restnaa Pause, work hours and Quiet mode are authoritative; use them for guaranteed app quiet. Native notifications must be enabled, OS-denied notification states suppress panels, and no Windows preference is changed or bypass API used. Windows 10/11 remain the primary targets; non-Windows automatic presentation is not claimed verified.

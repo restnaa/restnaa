@@ -1,4 +1,4 @@
-use restna_lib::storage::{Storage, StorageError};
+use restnaa_lib::storage::{Storage, StorageError};
 use rusqlite::{params, Connection};
 
 #[test]

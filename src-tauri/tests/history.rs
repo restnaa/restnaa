@@ -1,5 +1,5 @@
 mod support;
-use restna_lib::{
+use restnaa_lib::{
     clock::Clock,
     history::HistoryRange,
     scheduler::{model::*, service::Session},
@@ -174,7 +174,7 @@ fn failed_delete_rolls_back_without_erasing_rows_or_changing_scheduler() {
 
 #[test]
 fn old_settings_default_to_incomplete_and_onboarding_completion_persists() {
-    use restna_lib::settings::Settings;
+    use restnaa_lib::settings::Settings;
     let mut old = serde_json::to_value(Settings::default()).unwrap();
     old.as_object_mut().unwrap().remove("onboardingCompleted");
     assert!(

@@ -1,3 +1,5 @@
+> Historical record using the earlier Restna spelling. The correct current name is Restnaa. See [name correction](NAME_CORRECTION.md). Original build paths, hashes and evidence below are preserved.
+
 # Restna rename and open-source preparation plan
 
 Authorized 2026-11-10: rename PausePal to Restna and prepare source for contributors on GitHub. This supersedes the branding-only scope in earlier plans; product, scheduling, privacy and M5 release gates still apply.

@@ -71,7 +71,7 @@ pub fn send(
     let (permission, attention) = windows_status(app);
     if let Some(result) = delivery_policy(enabled, permission, attention) {
         let message = match result {
-            Delivery::DisabledInApp => "Notifications are disabled in Restna. The tray can still open the current break.",
+            Delivery::DisabledInApp => "Notifications are disabled in Restnaa. The tray can still open the current break.",
             Delivery::DeniedByWindows => "Windows has disabled notifications for this app, user, or policy. Review Windows notification settings; the tray remains available.",
             _ => "Windows reports an attention state that may suppress alerts. This reminder was not sent; use the tray when convenient.",
         };
@@ -100,8 +100,8 @@ pub fn reminder(app: &AppHandle, state: &DashboardState, reminder: &OpenReminder
         return;
     }
     let (title, body) = match reminder.category {
-        Category::Eye => ("Time for an eye break", "Try looking about 20 feet away for 20 seconds. Open your break from the Restna tray icon."),
-        Category::Movement => ("Time for a movement break", "A moment to stand, walk briefly, or roll your shoulders. Open your break from the Restna tray icon."),
+        Category::Eye => ("Time for an eye break", "Try looking about 20 feet away for 20 seconds. Open your break from the Restnaa tray icon."),
+        Category::Movement => ("Time for a movement break", "A moment to stand, walk briefly, or roll your shoulders. Open your break from the Restnaa tray icon."),
     };
     send(
         app,

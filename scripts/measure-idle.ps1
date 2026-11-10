@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory=$true)][string]$OutputPath
 )
 $ErrorActionPreference='Stop'
-if((Get-Process -Id $AppProcessId).ProcessName -ne 'pausepal'){throw 'Select the installed Restna process only.'}
+if((Get-Process -Id $AppProcessId).ProcessName -ne 'pausepal'){throw 'Select the installed Restnaa process only.'}
 function Read-AppTree {
     $all=Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId
     $ids=[System.Collections.Generic.HashSet[int]]::new()
@@ -21,7 +21,7 @@ $timer=[System.Diagnostics.Stopwatch]::StartNew()
 $cpu=0.0; $appCpu=0.0; $peakWorking=0L; $peakPrivate=0L; $samples=0; $peakCount=0
 do {
     Start-Sleep -Milliseconds ([Math]::Min(5000,[Math]::Max(1,($Seconds-$timer.Elapsed.TotalSeconds)*1000)))
-    if(-not (Get-Process -Id $AppProcessId -ErrorAction SilentlyContinue)){throw 'Restna exited during the sample.'}
+    if(-not (Get-Process -Id $AppProcessId -ErrorAction SilentlyContinue)){throw 'Restnaa exited during the sample.'}
     $tree=Read-AppTree
     $working=0L; $private=0L
     foreach($process in $tree){

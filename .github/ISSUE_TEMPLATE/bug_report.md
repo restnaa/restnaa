@@ -1,12 +1,12 @@
 ---
 name: Bug report
-about: Report a reproducible Restna problem
+about: Report a reproducible Restnaa problem
 title: ""
 labels: ""
 assignees: ""
 ---
 
-**Restna version / Windows version**
+**Restnaa version / Windows version**
 
 **Steps to reproduce**
 

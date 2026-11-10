@@ -1,8 +1,10 @@
-# Restna
+# Restnaa
+
+[Source and issues](https://github.com/restnaa/restnaa)
 
 A quiet, offline Windows desktop app that reminds you to rest your eyes and move. Previously named **PausePal**.
 
-Restna uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLite. A single Rust scheduler owns reminders; React displays its typed state. No accounts, cloud sync, analytics, telemetry implementation or medical claims.
+Restnaa uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLite. A single Rust scheduler owns reminders; React displays its typed state. No accounts, cloud sync, analytics, telemetry implementation or medical claims.
 
 **Status: 0.1.3 release candidate.** Contributions are welcome; stable binary release approval is pending. Windows 10/11 are the targets. Clean-machine testing, signing, installed rename/upgrade, startup and notification identity checks remain open. Existing platform limits are documented in [known limitations](docs/KNOWN_LIMITATIONS.md). Source publication is not a claim of production readiness.
 
@@ -58,9 +60,9 @@ UI tests use Microsoft Edge through Playwright, build production assets and inje
 
 ## Data and legacy compatibility
 
-Restna retains `%APPDATA%\com.pausepal.desktop\pausepal.sqlite3`, application identifier `com.pausepal.desktop` and binary name `pausepal.exe` to avoid an accidental new profile or executable mismatch for existing installs. Visible branding and installer names are Restna. These legacy identifiers are intentional; changing them requires an explicit migration and installed upgrade tests. Back up the stopped profile before upgrading. Never run old and new variants concurrently.
+Restnaa retains `%APPDATA%\com.pausepal.desktop\pausepal.sqlite3`, application identifier `com.pausepal.desktop` and binary name `pausepal.exe` to avoid an accidental new profile or executable mismatch for existing installs. Visible branding and installer names are Restnaa. These legacy identifiers are intentional; changing them requires an explicit migration and installed upgrade tests. Back up the stopped profile before upgrading. Never run old and new variants concurrently.
 
-See [privacy](PRIVACY.md), [installation](docs/INSTALLATION.md), [scheduler contract](docs/SCHEDULER.md), and [rename/open-source report](docs/OPEN_SOURCE_REPORT.md). The app implements no network calls; embedded WebView2/Windows component traffic is a separate unresolved audit boundary. A strict zero-egress guarantee is not established.
+See [privacy](PRIVACY.md), [installation](docs/INSTALLATION.md), [scheduler contract](docs/SCHEDULER.md), and [current naming/verification report](docs/NAME_CORRECTION.md). The app implements no network calls; embedded WebView2/Windows component traffic is a separate unresolved audit boundary. A strict zero-egress guarantee is not established.
 
 ## Contribute
 

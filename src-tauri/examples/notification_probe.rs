@@ -69,7 +69,7 @@ fn fresh_test(entries: &[String], before: Option<&[String]>) -> (bool, bool) {
             remaining.swap_remove(index);
             continue;
         }
-        if entry.contains("Restna test reminder") {
+        if entry.contains("Restnaa test reminder") {
             found = true;
             actions |= entry.contains("<actions");
         }
@@ -82,7 +82,7 @@ mod tests {
     use super::fresh_test;
     #[test]
     fn unchanged_snapshot_fails_but_an_additional_identical_toast_is_fresh() {
-        let old = vec!["||<toast>Restna test reminder</toast>".to_owned()];
+        let old = vec!["||<toast>Restnaa test reminder</toast>".to_owned()];
         assert_eq!(fresh_test(&old, Some(&old)), (false, false));
         let mut new = old.clone();
         new.push(old[0].clone());
@@ -99,7 +99,7 @@ mod tests {
         );
         assert_eq!(
             fresh_test(
-                &["||<toast>Restna test reminder<actions/></toast>".into()],
+                &["||<toast>Restnaa test reminder<actions/></toast>".into()],
                 Some(&[])
             ),
             (true, true)

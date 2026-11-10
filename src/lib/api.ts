@@ -9,7 +9,7 @@ export async function getAppInfo(): Promise<AppInfo> {
 
 async function desktopInvoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
   if (!isTauri()) {
-    throw new Error('Desktop connection unavailable. Open Restna through the desktop app to check local storage.')
+    throw new Error('Desktop connection unavailable. Open Restnaa through the desktop app to check local storage.')
   }
   return args === undefined ? invoke<T>(command) : invoke<T>(command, args)
 }

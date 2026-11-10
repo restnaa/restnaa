@@ -1,6 +1,6 @@
 # Community guidelines
 
-Restna welcomes contributors with different backgrounds and experience levels. Treat people respectfully, give constructive feedback, and focus criticism on code and ideas.
+Restnaa welcomes contributors with different backgrounds and experience levels. Treat people respectfully, give constructive feedback, and focus criticism on code and ideas.
 
 Harassment, discrimination, threats, sexualized attention, publishing private information and sustained disruptive behavior are not acceptable in issues, pull requests or other project spaces.
 

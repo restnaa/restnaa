@@ -1,6 +1,6 @@
-# Restna current release limitations
+# Restnaa current release limitations
 
-Restna 0.1.3 is the renamed open-source candidate. Automated/build checks are recorded in OPEN_SOURCE_REPORT.md. Historical PausePal evidence below does not verify this renamed installer. Installed upgrade/startup/notification identity, clean Windows 10/11, signing, physical toast activation, screen-reader and runtime-egress gates remain pending. Source publication is separate from stable binary release approval.
+Restnaa 0.1.3 is the renamed open-source candidate. Automated/build checks are recorded in NAME_CORRECTION.md. Historical PausePal evidence below does not verify this renamed installer. Installed upgrade/startup/notification identity, clean Windows 10/11, signing, physical toast activation, screen-reader and runtime-egress gates remain pending. Source publication is separate from stable binary release approval.
 
 # Known limitations and remaining release gates
 

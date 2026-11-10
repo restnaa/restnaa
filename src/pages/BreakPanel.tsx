@@ -30,7 +30,7 @@ export function BreakPanel() {
     return () => window.removeEventListener('keydown', onKey)
   }, [busy])
   return <main className="break-panel" aria-busy={busy}>
-    <p className="break-brand">Restna</p>
+    <p className="break-brand">Restnaa</p>
     <h1>{current ? current.category === 'eye' ? 'A moment for your eyes.' : 'Make room to move.' : 'No break waiting.'}</h1>
     {view.status === 'loading' && <p role="status">Checking your current break…</p>}
     {view.status === 'error' && <p role="alert" className="error-message">{view.message}</p>}

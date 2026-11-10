@@ -1,5 +1,5 @@
 mod support;
-use restna_lib::{
+use restnaa_lib::{
     native::{model::*, startup::change_with_rollback},
     scheduler::{engine::Engine, model::*},
     settings::Settings,
@@ -8,7 +8,7 @@ use support::*;
 
 #[test]
 fn main_close_without_a_tray_quits_all_hidden_webviews_instead_of_stranding_process() {
-    use restna_lib::native::model::{close_behavior, CloseBehavior::*};
+    use restnaa_lib::native::model::{close_behavior, CloseBehavior::*};
     assert_eq!(close_behavior("main", false, false), Quit);
     assert_eq!(close_behavior("main", true, false), Hide);
     assert_eq!(close_behavior("break", false, false), Hide);
@@ -183,7 +183,7 @@ fn break_window_capability_cannot_mutate_preferences_or_use_plugin_apis() {
 
 #[test]
 fn native_preferences_persist_and_do_not_register_startup_when_restoring_a_session() {
-    use restna_lib::{scheduler::service::Session, storage::Storage};
+    use restnaa_lib::{scheduler::service::Session, storage::Storage};
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("native.sqlite3");
     let clock = FakeClock::at("2026-10-21T09:00:00Z");
@@ -205,7 +205,7 @@ fn native_preferences_persist_and_do_not_register_startup_when_restoring_a_sessi
 
 #[test]
 fn automatic_windows_default_on_for_new_and_old_profiles_and_false_persists() {
-    use restna_lib::{scheduler::service::Session, storage::Storage};
+    use restnaa_lib::{scheduler::service::Session, storage::Storage};
     let defaults = Settings::default();
     assert!(defaults.show_break_window);
     let mut old = serde_json::to_value(&defaults).unwrap();
@@ -333,12 +333,12 @@ fn automatic_panel_claim_is_once_per_reminder_and_dismissal_cannot_reopen_it() {
 }
 
 #[test]
-fn restna_branding_preserves_legacy_profile_and_binary_identity() {
+fn restnaa_branding_preserves_legacy_profile_and_binary_identity() {
     let config: serde_json::Value =
         serde_json::from_str(include_str!("../tauri.conf.json")).unwrap();
-    assert_eq!(config["productName"], "Restna");
+    assert_eq!(config["productName"], "Restnaa");
     assert_eq!(config["identifier"], "com.pausepal.desktop");
     assert_eq!(config["mainBinaryName"], "pausepal");
-    assert_eq!(config["app"]["windows"][0]["title"], "Restna");
+    assert_eq!(config["app"]["windows"][0]["title"], "Restnaa");
     assert!(include_str!("../src/lib.rs").contains("pausepal.sqlite3"));
 }

@@ -1,10 +1,10 @@
-# Restna repository instructions
+# Restnaa repository instructions
 
 ## Source of truth and scope
 
 Read `PRD.md` carefully before each milestone, then inspect the current repository and `CODEX_PROMPTS.md`. Follow the prompts sequentially. Preserve unrelated changes. If requirements conflict or a change expands product scope, surface the conflict before implementing it.
 
-Current authorized work: rename to Restna and prepare for open-source contribution per docs/OPEN_SOURCE_PLAN.md. Retain legacy technical identity/storage/binary for compatibility, preserve historical audit evidence, and do not publish externally without explicit instruction. Prior authorized work: the explicitly requested Complete Desktop UI Redesign, following `docs/UI_REDESIGN_PLAN.md`, on the M5 release candidate. Remove the standalone Welcome page and incorporate first-run configuration into Settings; preserve the existing Rust/native/storage contracts. M5 audit and packaging evidence remains governed by `M5_PLAN.md`. Preserve and re-audit pending OS acceptance checks in `docs/NATIVE_WINDOWS.md`. Do not add post-beta features without explicit authorization. Before writing implementation code, provide a plan naming concrete files, boundaries, tests, and acceptance checks. A packaged release candidate is not release approval while required clean-machine/manual gates remain pending.
+Current authorized work: rename to Restnaa and prepare for open-source contribution per docs/NAME_CORRECTION.md and docs/OPEN_SOURCE_PLAN.md. Retain legacy technical identity/storage/binary for compatibility, preserve historical audit evidence, and do not publish externally without explicit instruction. Prior authorized work: the explicitly requested Complete Desktop UI Redesign, following `docs/UI_REDESIGN_PLAN.md`, on the M5 release candidate. Remove the standalone Welcome page and incorporate first-run configuration into Settings; preserve the existing Rust/native/storage contracts. M5 audit and packaging evidence remains governed by `M5_PLAN.md`. Preserve and re-audit pending OS acceptance checks in `docs/NATIVE_WINDOWS.md`. Do not add post-beta features without explicit authorization. Before writing implementation code, provide a plan naming concrete files, boundaries, tests, and acceptance checks. A packaged release candidate is not release approval while required clean-machine/manual gates remain pending.
 
 ## Product boundaries
 
@@ -51,4 +51,4 @@ For M1, use `IMPLEMENTATION_PLAN.md` as the proposed file/test map and update it
 
 ## Authorized automatic break windows (2026-10-22)
 
-The user explicitly authorized automatic break windows, default On, and explicitly accepted Restna pause/work-hours/Quiet mode plus best-effort Windows DND handling. Follow docs/AUTO_BREAK_WINDOW_PLAN.md. Do not claim complete DND detection; known suppressed/unknown attention states must not trigger automatic windows. No OS preference changes, forced keyboard focus or always-on-top behavior. Existing explicit window actions may focus as before.
+The user explicitly authorized automatic break windows, default On, and explicitly accepted Restnaa pause/work-hours/Quiet mode plus best-effort Windows DND handling. Follow docs/AUTO_BREAK_WINDOW_PLAN.md. Do not claim complete DND detection; known suppressed/unknown attention states must not trigger automatic windows. No OS preference changes, forced keyboard focus or always-on-top behavior. Existing explicit window actions may focus as before.

@@ -12,7 +12,7 @@ test('onboarding saves a schedule, preserves startup consent and stays complete 
   expect((await commandCalls(page,'update_settings'))[0].args.settings).toMatchObject({eyeIntervalMinutes:30,onboardingCompleted:true,autostartEnabled:false})
   expect(await commandCalls(page,'set_autostart_enabled')).toHaveLength(0)
   await page.reload();await expect(page.getByRole('button',{name:'Take eye break'})).toBeVisible()
-  await expect(page.getByRole('heading',{name:'Welcome to Restna.'})).toHaveCount(0)
+  await expect(page.getByRole('heading',{name:'Welcome to Restnaa.'})).toHaveCount(0)
   expect(errors).toEqual([])
 })
 

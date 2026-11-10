@@ -1,6 +1,6 @@
-# Restna 0.1.3 ? open-source preparation
+# Restnaa 0.1.3 ? open-source preparation
 
-Renamed the visible desktop app, windows, notifications, tray, package metadata and installer to Restna. Added MIT licensing, contribution/security guidance and GitHub templates. Retained com.pausepal.desktop, pausepal.sqlite3 and pausepal.exe for legacy compatibility. No scheduler, migration or outcome-policy changes. The native automatic-window dismissal repair remains intact.
+Renamed the visible desktop app, windows, notifications, tray, package metadata and installer to Restnaa. Added MIT licensing, contribution/security guidance and GitHub templates. Retained com.pausepal.desktop, pausepal.sqlite3 and pausepal.exe for legacy compatibility. No scheduler, migration or outcome-policy changes. The native automatic-window dismissal repair remains intact.
 
 This is an unsigned candidate, not a stable release. Installed rename/upgrade and clean Windows acceptance remain pending. Historical notes below preserve original names and evidence.
 

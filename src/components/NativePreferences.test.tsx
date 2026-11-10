@@ -51,7 +51,7 @@ test('disabled notifications, unreadable startup state, and explicit quit are ha
   expect(screen.getByRole('button', { name: 'Send test reminder' })).toBeDisabled()
   expect(screen.getByRole('checkbox', { name: 'Start on login' })).toBeDisabled()
   expect(screen.getByText('Disabled by Windows or policy')).toBeInTheDocument()
-  await userEvent.click(screen.getByRole('button', { name: 'Quit Restna completely' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Quit Restnaa completely' }))
   expect(quitApp).toHaveBeenCalledOnce()
 })
 
@@ -59,6 +59,6 @@ test('diagnostics or storage failure cannot hide explicit Quit',async()=>{
   vi.mocked(useNativeStatus).mockReturnValue({status:null,error:'Storage is unavailable.',refresh})
   render(<NativePreferences />)
   expect(screen.getByRole('alert')).toHaveTextContent('Storage is unavailable')
-  await userEvent.click(screen.getByRole('button',{name:'Quit Restna completely'}))
+  await userEvent.click(screen.getByRole('button',{name:'Quit Restnaa completely'}))
   expect(quitApp).toHaveBeenCalledOnce()
 })

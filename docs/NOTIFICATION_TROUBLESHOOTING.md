@@ -32,6 +32,6 @@ Tool limitations: the first history probe failed at unreadable older XML; fixed 
 
 ## User action and remaining acceptance
 
-If banners are desired, turn off Do not disturb in Windows Settings (or Win+N), then use Restna Settings → Send test reminder. If DND returns, review its automatic rules rather than allowing the app to override them. If DND should remain on, use Win+N to read accepted notifications and the Restna tray → Open current break for an active reminder. Expired reminders are unanswered, and old Action Center clicks may not reopen them.
+If banners are desired, turn off Do not disturb in Windows Settings (or Win+N), then use Restnaa Settings → Send test reminder. If DND returns, review its automatic rules rather than allowing the app to override them. If DND should remain on, use Win+N to read accepted notifications and the Restnaa tray → Open current break for an active reminder. Expired reminders are unanswered, and old Action Center clicks may not reopen them.
 
 Banner visibility after the user changes DND and physical click activation remain pending user confirmation. Other M5 clean-machine/manual gates remain pending. No Windows DND bypass or destructive reset was attempted.

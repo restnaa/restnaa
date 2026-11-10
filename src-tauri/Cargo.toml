@@ -1,5 +1,5 @@
 [package]
-name = "restna"
+name = "restnaa"
 license = "MIT"
 publish = false
 default-run = "pausepal"
@@ -14,7 +14,7 @@ name = "pausepal"
 path = "src/main.rs"
 
 [lib]
-name = "restna_lib"
+name = "restnaa_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

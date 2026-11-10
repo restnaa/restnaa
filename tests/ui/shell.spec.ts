@@ -5,7 +5,7 @@ test('shell loads, navigation responds, and no content overflows', async ({ page
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
   await page.goto('/')
-  await expect(page).toHaveTitle('Restna')
+  await expect(page).toHaveTitle('Restnaa')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('A little space to pause.')
   await expect(page.getByRole('alert').filter({ hasText: 'Desktop connection unavailable' })).toBeVisible()
   await expect(page.getByRole('alert').filter({ hasText: 'Scheduler unavailable' })).toBeVisible()

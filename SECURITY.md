@@ -1,6 +1,6 @@
 # Security policy
 
-Restna is pre-release software. Only the latest source/candidate is actively reviewed; there is no promised security-support period or response SLA.
+Restnaa is pre-release software. Only the latest source/candidate is actively reviewed; there is no promised security-support period or response SLA.
 
 ## Reporting a vulnerability
 

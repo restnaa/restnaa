@@ -1,4 +1,4 @@
-# Contributing to Restna
+# Contributing to Restnaa
 
 Thank you for helping improve quiet, reliable break reminders. Documentation, bug reports, accessibility fixes and deterministic tests are useful contributions.
 

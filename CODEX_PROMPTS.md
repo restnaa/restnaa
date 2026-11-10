@@ -1,4 +1,4 @@
-# Restna — Codex execution prompts
+# Restnaa — Codex execution prompts
 
 Use these prompts **sequentially** in a working repository. Keep `PRD.md` at project root; make Codex read it before each milestone. Never claim a feature works without executing the relevant tests. Build on Windows for installer verification.
 
@@ -6,7 +6,7 @@ Use these prompts **sequentially** in a working repository. Keep `PRD.md` at pro
 Read `PRD.md` carefully. Create `AGENTS.md` to codify the product boundaries: Windows-first Tauri 2 desktop app, React/TS + Tailwind frontend, Rust-owned scheduler, local SQLite, offline, no login/network/telemetry, no medical claims. Follow least privilege and accessibility. Provide implementation plan with concrete files and tests before coding. Do not implement beyond M1 yet.
 
 ## Prompt 1 — Foundation (M1)
-Implement milestone M1 from `PRD.md`. Bootstrap a current Tauri 2 project with React, TypeScript, Vite and Tailwind. Configure a clean Restna desktop dashboard shell, navigation to onboarding/settings/history, Tauri command layer, typed DTOs, and SQLite migrations/storage abstraction. Include basic unit/lint/build scripts and Windows development instructions. Use a coherent visually polished design, but do not fake timers or charts. Add meaningful tests. Run all commands, report results, limitations and exact next steps. Do not implement scheduler or notifications in this step.
+Implement milestone M1 from `PRD.md`. Bootstrap a current Tauri 2 project with React, TypeScript, Vite and Tailwind. Configure a clean Restnaa desktop dashboard shell, navigation to onboarding/settings/history, Tauri command layer, typed DTOs, and SQLite migrations/storage abstraction. Include basic unit/lint/build scripts and Windows development instructions. Use a coherent visually polished design, but do not fake timers or charts. Add meaningful tests. Run all commands, report results, limitations and exact next steps. Do not implement scheduler or notifications in this step.
 
 ## Prompt 2 — Scheduler (M2)
 Read `PRD.md` and current implementation. Implement the single Rust-owned scheduler as an explicit tested state machine with injectable clock, independent eye/movement deadlines, configured working hours, pause/resume, handling snooze/skip/completed/unanswered, persisted next_due_at timestamps, and robust restart/suspend/time-change policies. No JS interval should be the source of truth. Handle simultaneous reminders without overlap. Test both categories, quiet hours, sleep/wake, clock jumps, restart, pause persistence, settings changes and no backlog storms. Wire typed commands/events. Run cargo tests and frontend tests; report failures precisely.
