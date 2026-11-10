@@ -18,6 +18,34 @@ Restnaa uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLi
 
 Windows DND detection is best effort. Use app Pause or Quiet mode for guaranteed app quiet. Completion records your explicit action; it does not verify exercise or eye rest.
 
+## Screenshots
+
+Captured from the Windows desktop build of Restnaa 0.1.4. These are actual app views; history is empty in this profile. Captures show the app content without Windows title bars.
+
+### Dashboard
+
+![Restnaa dashboard with eye and movement reminders, schedule, pause controls and today?s outcomes](docs/screenshots/dashboard.png)
+
+### Break popup
+
+The app?s eye-break panel offers Done, Snooze and Skip. This is separate from the native Windows notification banner; Windows banners may be suppressed by Do Not Disturb. A Windows banner capture is not included here.
+
+<img src="docs/screenshots/eye-break.png" alt="Restnaa eye-break popup with Done, Snooze 5 min, Skip and Close for now" width="440">
+
+<details>
+<summary>Settings and first-run setup</summary>
+
+![Restnaa Settings with reminder intervals, working hours, automatic break panels, pause and opt-in startup](docs/screenshots/settings.png)
+
+</details>
+
+<details>
+<summary>Local history</summary>
+
+![Restnaa seven-day history showing zero completed breaks and an empty activity list](docs/screenshots/history.png)
+
+</details>
+
 ## Run on Windows
 
 Install Node.js >=22.12, npm, stable Rust for x86_64-pc-windows-msvc, Visual Studio Build Tools with Desktop development with C++ and a Windows SDK, plus WebView2 Evergreen. See [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/).
