@@ -1,0 +1,19 @@
+[[permission]]
+identifier = "allow-foundation-info"
+description = "Read app version and storage readiness without filesystem access."
+commands.allow = ["get_app_info"]
+
+[[permission]]
+identifier = "allow-scheduler"
+description = "Read and control the Rust scheduler through validated typed commands."
+commands.allow = ["get_dashboard_state", "get_settings", "update_settings", "start_break", "complete_break", "skip_break", "snooze_break", "pause_reminders", "resume_reminders"]
+
+[[permission]]
+identifier = "allow-native-controls"
+description = "Access native preferences, test notifications, current break, and explicit Quit."
+commands.allow = ["get_native_status", "set_notifications_enabled", "set_autostart_enabled", "test_notification", "open_current_break", "quit_app"]
+
+[[permission]]
+identifier = "allow-break-controls"
+description = "Read the scheduler and act on its current reminder, or hide this break window."
+commands.allow = ["get_dashboard_state", "start_break", "complete_break", "skip_break", "snooze_break", "hide_break_window"]

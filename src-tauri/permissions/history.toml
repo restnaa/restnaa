@@ -1,0 +1,4 @@
+[[permission]]
+identifier = "allow-local-history"
+description = "Read local history and erase outcomes only after explicit confirmation."
+commands.allow = ["get_history", "clear_history"]

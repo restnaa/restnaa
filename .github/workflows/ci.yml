@@ -1,0 +1,35 @@
+name: Windows desktop
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  release-candidate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test -- --run --maxWorkers=1
+      - run: npm run build
+      - run: npm run test:ui -- --workers=2
+      - run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
+      - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --locked -- -D warnings
+      - run: cargo test --manifest-path src-tauri/Cargo.toml --all-targets --locked
+      - run: npm run package:windows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: restna-windows-release-candidate
+          path: release/

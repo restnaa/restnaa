@@ -1,0 +1,8 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Only the trusted main window may access scheduler commands and listen to Rust events.",
+  "local": true,
+  "windows": ["main"],
+  "permissions": ["allow-foundation-info", "allow-scheduler", "allow-native-controls", "allow-local-history", "core:event:allow-listen", "core:event:allow-unlisten"]
+}

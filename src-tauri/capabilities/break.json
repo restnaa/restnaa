@@ -1,0 +1,8 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "break",
+  "description": "The local break window can act only on the Rust scheduler's current reminder.",
+  "local": true,
+  "windows": ["break"],
+  "permissions": ["allow-break-controls", "core:event:allow-listen", "core:event:allow-unlisten"]
+}
