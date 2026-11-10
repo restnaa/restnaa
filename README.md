@@ -64,10 +64,10 @@ Restnaa stores its local SQLite database at `%APPDATA%\com.restnaa.desktop\restn
 
 This is a fresh pre-release identity. No automatic migration from earlier development profiles is performed. Existing local test data is left untouched. Quit other development builds before testing a new candidate. Corrupt databases fail visibly and are never silently replaced.
 
-See [privacy](PRIVACY.md), [installation](docs/INSTALLATION.md), [scheduler contract](docs/SCHEDULER.md) and [identity verification](docs/IDENTITY_RESET.md). The app implements no network calls; embedded WebView2/Windows component traffic remains a separate audit boundary. A strict zero-egress guarantee is not established.
+See [privacy](PRIVACY.md), [installation](docs/INSTALLATION.md), [scheduler contract](docs/SCHEDULER.md). The app implements no network calls; embedded WebView2/Windows component traffic remains a separate audit boundary. A strict zero-egress guarantee is not established.
 
 ## Contribute
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [repository instructions](AGENTS.md). Bug reports, documentation, accessibility, tests and small fixes are welcome. [PRD.md](PRD.md) defines product boundaries. Please discuss behavior changes before building them; AI, accounts, cloud sync, payments and employee monitoring are outside the current product scope.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [repository instructions](AGENTS.md). Bug reports, documentation, accessibility, tests and small fixes are welcome. Product boundaries are documented in the repository instructions. Please discuss behavior changes before building them; AI, accounts, cloud sync, payments and employee monitoring are outside the current product scope.
 
-See [security reporting](SECURITY.md), [community guidelines](CODE_OF_CONDUCT.md), [MIT license](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md). Exact earlier internal audit evidence remains in Git history; it does not certify the current identity. Maintainers: follow [GitHub publication steps](docs/OPEN_SOURCE.md) before uploading.
+See [security reporting](SECURITY.md), [community guidelines](CODE_OF_CONDUCT.md), [MIT license](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md). Exact earlier internal audit evidence remains in Git history; it does not certify the current identity.

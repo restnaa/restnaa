@@ -4,9 +4,9 @@ Thank you for helping improve quiet, reliable break reminders. Documentation, bu
 
 ## Getting started
 
-Follow the Windows setup in README.md, read PRD.md and AGENTS.md, then inspect the relevant existing code. First-run setup is in Settings. The app is offline and needs no account, secrets or environment file. Use temporary databases for tests; never commit personal history or diagnostic screenshots.
+Follow the Windows setup in README.md, read AGENTS.md, then inspect the relevant existing code. First-run setup is in Settings. The app is offline and needs no account, secrets or environment file. Use temporary databases for tests; never commit personal history or diagnostic screenshots.
 
-Open a focused issue for bugs with version, Windows version, reproduction steps and expected/actual behavior. Remove private information. For timing bugs include working hours, pause/Quiet mode and category state as text; do not attach your database publicly. Discuss larger changes before implementation. Features outside PRD scope need separate maintainer approval.
+Open a focused issue for bugs with version, Windows version, reproduction steps and expected/actual behavior. Remove private information. For timing bugs include working hours, pause/Quiet mode and category state as text; do not attach your database publicly. Discuss larger changes before implementation. Features outside the documented product boundaries need separate maintainer approval.
 
 ## Pull requests
 

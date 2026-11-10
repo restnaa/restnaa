@@ -12,4 +12,4 @@ Include affected version, Windows version, a minimal reproduction, impact and su
 
 The frontend has narrowly scoped Tauri capabilities and no direct SQL/filesystem access. Rust validates input and owns scheduling/storage. Corrupt databases must fail visibly without silent reset. Local SQLite is not encrypted by this app. Windows notifications and embedded WebView2 have their own privacy/security behavior; see PRIVACY.md.
 
-Maintainers must enable private vulnerability reporting after creating the public repository, review access and protect signing credentials outside Git. Never add CI secrets to pull-request code execution. See docs/OPEN_SOURCE.md for publication steps.
+Maintainers must enable private vulnerability reporting after creating the public repository, review access and protect signing credentials outside Git. Never add CI secrets to pull-request code execution.

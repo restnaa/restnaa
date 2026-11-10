@@ -1,6 +1,6 @@
 # Restnaa known limitations
 
-0.1.4 is an unsigned release candidate. See [current verification](IDENTITY_RESET.md) and [release gates](RELEASE_AUDIT.md). No stable binary release approval is claimed.
+0.1.4 is an unsigned release candidate. See [release verification and gates](RELEASE_AUDIT.md). No stable binary release approval is claimed.
 
 - Current identity is com.restnaa.desktop, binary restnaa.exe, database restnaa.sqlite3. Earlier development profiles are not imported or deleted.
 - New-identity installed notifications, tray/Quit/single instance, startup/sign-in and uninstall behavior need acceptance. Clean Windows 10/11, physical sleep/wake/session/time changes, screen reader and seven-day use remain pending.

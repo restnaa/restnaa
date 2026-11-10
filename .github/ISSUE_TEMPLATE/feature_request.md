@@ -12,4 +12,4 @@ assignees: ""
 
 **Alternatives and annoyance/accessibility impact**
 
-Please read PRD.md. AI, cloud accounts, payments and monitoring are outside current scope.
+Please read CONTRIBUTING.md and AGENTS.md. AI, cloud accounts, payments and monitoring are outside current scope.

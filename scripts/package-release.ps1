@@ -1,5 +1,11 @@
 param([switch]$SkipBuild)
 $ErrorActionPreference='Stop'
+function Get-Sha256([string]$LiteralPath) {
+    $stream=[System.IO.File]::OpenRead($ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($LiteralPath))
+    $algorithm=[System.Security.Cryptography.SHA256]::Create()
+    try { return ([System.BitConverter]::ToString($algorithm.ComputeHash($stream))).Replace('-','').ToLowerInvariant() }
+    finally { $algorithm.Dispose(); $stream.Dispose() }
+}
 $repoRoot=[System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 Push-Location $repoRoot
 try {
@@ -14,10 +20,10 @@ try {
     New-Item -ItemType Directory -Path (Join-Path $destination 'docs') -Force | Out-Null
     $installer=Join-Path $destination $filename
     Copy-Item -LiteralPath $source -Destination $installer -Force
-    $documents=@('RELEASE_NOTES.md','PRIVACY.md','docs/INSTALLATION.md','docs/KNOWN_LIMITATIONS.md','docs/RELEASE_AUDIT.md','docs/OPEN_SOURCE_REPORT.md','docs/OPEN_SOURCE_PLAN.md','docs/NAME_CORRECTION.md','docs/IDENTITY_RESET.md','LICENSE','THIRD_PARTY_NOTICES.md')
+    $documents=@('RELEASE_NOTES.md','PRIVACY.md','docs/INSTALLATION.md','docs/KNOWN_LIMITATIONS.md','docs/RELEASE_AUDIT.md','LICENSE','THIRD_PARTY_NOTICES.md')
     foreach($document in $documents){Copy-Item -LiteralPath (Join-Path $repoRoot $document) -Destination (Join-Path $destination $document) -Force}
     $encoding=[System.Text.UTF8Encoding]::new($false)
-    $hash=(Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+    $hash=(Get-Sha256 $installer)
     [System.IO.File]::WriteAllText(($installer+'.sha256'),($hash+'  '+$filename+"`n"),$encoding)
     $readme="# Restnaa release candidate`n`nStart with [installation](docs/INSTALLATION.md), [release notes](RELEASE_NOTES.md), [privacy](PRIVACY.md), [audit evidence](docs/RELEASE_AUDIT.md) and [limitations](docs/KNOWN_LIMITATIONS.md).`n`nVerify the installer against its SHA-256 file. This candidate is unsigned and still has manual release gates. Build instructions refer to the source repository checkout and its README.`n"
     [System.IO.File]::WriteAllText((Join-Path $destination 'README.md'),$readme,$encoding)
@@ -26,7 +32,7 @@ try {
         generatedAtUtc=[DateTime]::UtcNow.ToString('o');installer=$filename;bytes=(Get-Item -LiteralPath $installer).Length;sha256=$hash
         authenticodeStatus=(Get-AuthenticodeSignature -LiteralPath $installer).Status.ToString()
         webview2='Evergreen required; download bootstrapper may need internet if runtime is absent'
-        lockfiles=@{npm=(Get-FileHash -LiteralPath 'package-lock.json' -Algorithm SHA256).Hash.ToLowerInvariant();cargo=(Get-FileHash -LiteralPath 'src-tauri/Cargo.lock' -Algorithm SHA256).Hash.ToLowerInvariant()}
+        lockfiles=@{npm=(Get-Sha256 'package-lock.json');cargo=(Get-Sha256 'src-tauri/Cargo.lock')}
         audit='docs/RELEASE_AUDIT.md';limitations='docs/KNOWN_LIMITATIONS.md'
     }
     [System.IO.File]::WriteAllText((Join-Path $destination 'manifest.json'),($manifest | ConvertTo-Json -Depth 4),$encoding)

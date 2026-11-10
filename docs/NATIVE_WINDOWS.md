@@ -12,4 +12,4 @@ Dashboard close hides to tray; explicit Quit exits fully. Startup is off until o
 
 For the new identity, test native dispatch/banner/click/denial, tray menus, duplicate launch, Quit, login consent/actual sign-in, panel focus/dismissal, install/uninstall and OS DND without changing global settings. Test on clean Windows 10 and 11. No new-identity installed pass is asserted here.
 
-Earlier internal plans and exact test evidence are preserved in Git history before 0.1.4. They do not certify the current identity. Current executed checks are recorded in [identity verification](IDENTITY_RESET.md).
+Earlier internal plans and exact test evidence are preserved in Git history before 0.1.4. They do not certify the current identity. Current executed checks are recorded in [release audit](RELEASE_AUDIT.md).
