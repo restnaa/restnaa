@@ -1,10 +1,10 @@
 # Restnaa privacy statement
 
-Applies to Restnaa 0.1.3, 2026-11-10. Restnaa was previously named PausePal; the legacy data path is retained.
+Applies to Restnaa 0.1.4, 2026-11-10. This candidate uses its own Restnaa data directory; no previous development profile is migrated.
 
 ## What stays on this device
 
-Restnaa stores a SQLite database in `%APPDATA%\com.pausepal.desktop\pausepal.sqlite3`, resolved through Windows/Tauri. It contains reminder preferences, local working days/hours, onboarding completion, startup/notification preferences, pause state, future UTC deadlines, open-reminder metadata, and break outcomes. Outcome records contain a random ID, category, completed/skipped/snoozed/unanswered result, timestamps and optional elapsed seconds after explicit Start.
+Restnaa stores a SQLite database in `%APPDATA%\com.restnaa.desktop\restnaa.sqlite3`, resolved through Windows/Tauri. It contains reminder preferences, local working days/hours, onboarding completion, startup/notification preferences, pause state, future UTC deadlines, open-reminder metadata, and break outcomes. Outcome records contain a random ID, category, completed/skipped/snoozed/unanswered result, timestamps and optional elapsed seconds after explicit Start.
 
 An explicit Done is an action record, not proof of movement or eye rest. Restnaa offers no medical diagnosis or treatment and stores no medical conditions, names, email addresses, browsing history, webcam/screen recordings, key presses or active-app/window activity. It has no login, server, analytics, telemetry, cloud sync, remote updater or automatic beta-feedback transmission.
 
@@ -14,7 +14,7 @@ Windows receives local notification text and identifiers so it can display remin
 
 Start on login is off by default and changes only after explicit choice. Enabling it writes this user's Windows startup registration. It can be disabled in Restnaa or through Windows. The app reads its own notification permission and a shell attention hint for diagnostics; it does not identify which other app is active.
 
-The packaged application contains no application network calls. Dependency installation and the WebView2 prerequisite download are build/install activities. Windows and Microsoft WebView2 are separate components. Microsoft documents required WebView2 diagnostic collection even when optional diagnostic collection is off. Microsoft Defender SmartScreen is enabled by default and may send information to Microsoft. Restnaa does not disable those security protections or control overall runtime collection. See [Microsoft WebView2 data/privacy](https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/data-privacy) and [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement). The audit observed one outbound HTTPS connection in the app/runtime process tree; its owner and payload were not captured before it closed. A strict zero-egress or zero-component-telemetry guarantee is unverified.
+The packaged application contains no application network calls. Dependency installation and the WebView2 prerequisite download are build/install activities. Windows and Microsoft WebView2 are separate components. Microsoft documents required WebView2 diagnostic collection even when optional diagnostic collection is off. Microsoft Defender SmartScreen is enabled by default and may send information to Microsoft. Restnaa does not disable those security protections or control overall runtime collection. See [Microsoft WebView2 data/privacy](https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/data-privacy) and [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement). An earlier internal audit observed one outbound HTTPS connection in the app/runtime process tree; its owner and payload were not captured before it closed. A strict zero-egress or zero-component-telemetry guarantee is unverified.
 
 ## Retention, deletion and access
 

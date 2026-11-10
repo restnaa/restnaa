@@ -22,5 +22,5 @@ fn main() {
             "clear_history",
         ]),
     ))
-    .expect("failed to build PausePal application manifest");
+    .expect("failed to build Restnaa application manifest");
 }

@@ -2986,7 +2986,7 @@ dependencies = [
 
 [[package]]
 name = "restnaa"
-version = "0.1.3"
+version = "0.1.4"
 dependencies = [
  "chrono",
  "chrono-tz",

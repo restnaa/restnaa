@@ -13,7 +13,7 @@ test('reference layout, native minimum and high DPI reflow without overlap', asy
       await expect(page.getByRole('heading',{level:1})).toBeVisible()
       expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),`${label} at ${width}`).toBe(false)
       if ((width === 1448 || width === 390) && test.info().project.name === 'desktop') {
-        const folder=join(tmpdir(),'pausepal-redesign');mkdirSync(folder,{recursive:true})
+        const folder=join(tmpdir(),'restnaa-redesign');mkdirSync(folder,{recursive:true})
         await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();window.scrollTo(0,0)})
         await page.screenshot({path:join(folder,`${label.toLowerCase()}${width === 390 ? '-compact' : ''}.png`),fullPage:true})
       }

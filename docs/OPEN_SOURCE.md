@@ -29,6 +29,6 @@ Replace the bracketed URL; never paste authentication tokens into remote URLs or
 - Set a maintainer private contact for security/conduct reports. Templates work without invented owner links.
 - Require review and passing Windows CI on main; verify the first hosted workflow actually runs. Avoid public stable-release claims based solely on build success.
 - Review dependency alerts and lockfile updates. Keep workflow permissions read-only unless a specific release task needs more.
-- Tag and publish installers only after the relevant installed/clean-machine gates are satisfied. Old PausePal artifacts are local historical evidence, not Restnaa binaries.
+- Tag and publish installers only after the relevant installed/clean-machine gates are satisfied. Old Restnaa artifacts are local historical evidence, not Restnaa binaries.
 
 The current name has not been cleared for trademark/domain availability. No legal clearance, comprehensive dependency-license certification or public stable release is asserted.

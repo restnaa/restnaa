@@ -6,7 +6,7 @@ import { historyFixture } from '../../src/test/historyFixtures'
 export async function installDesktopFixture(page: Page, onboardingCompleted = true) {
   await page.addInitScript(({ initial, history }) => {
     type State = typeof initial
-    const saved = localStorage.getItem('pausepal-test-state')
+    const saved = localStorage.getItem('restnaa-test-state')
     const state: State = saved ? JSON.parse(saved) : initial
     const calls: { command: string; args: Record<string, unknown> }[] = []
     const callbacks = new Map<number, (event: unknown) => void>()
@@ -15,7 +15,7 @@ export async function installDesktopFixture(page: Page, onboardingCompleted = tr
     let erased = false
     const native = { notificationEnabled: true, autostartEnabled: false, autostartRegistered: false, windowsPermission: 'allowed', attention: 'accepting', trayAvailable: true, lastAttempt: null as { atUtc: string; result: string; message: string } | null, warning: null }
     const emit = (name: string, payload: unknown) => { listeners.forEach(({ name: event, callback }, id) => { if (event === name) callbacks.get(callback)?.({ event: name, id, payload: structuredClone(payload) }) }) }
-    const publish = () => { state.revision++; localStorage.setItem('pausepal-test-state',JSON.stringify(state)); emit('scheduler-state-changed',{kind:'state',state}) }
+    const publish = () => { state.revision++; localStorage.setItem('restnaa-test-state',JSON.stringify(state)); emit('scheduler-state-changed',{kind:'state',state}) }
     const bridge = {
       transformCallback: (callback: (event: unknown) => void) => { const id=++sequence; callbacks.set(id,callback); return id },
       invoke: async (command: string, args: Record<string, unknown> = {}) => {
@@ -47,10 +47,10 @@ export async function installDesktopFixture(page: Page, onboardingCompleted = tr
         throw new Error(`Unhandled test IPC: ${command}`)
       },
     }
-    Object.assign(window,{isTauri:true,__TAURI_INTERNALS__:bridge,__TAURI_EVENT_PLUGIN_INTERNALS__:{unregisterListener:(_name:string,id:number)=>listeners.delete(id)},__pausepalTestCalls:calls})
+    Object.assign(window,{isTauri:true,__TAURI_INTERNALS__:bridge,__TAURI_EVENT_PLUGIN_INTERNALS__:{unregisterListener:(_name:string,id:number)=>listeners.delete(id)},__restnaaTestCalls:calls})
   },{initial:{...schedulerState(),settings:{...schedulerState().settings,onboardingCompleted}},history:historyFixture()})
 }
 
 export async function commandCalls(page: Page, command: string) {
-  return page.evaluate(name => (window as unknown as {__pausepalTestCalls:{command:string;args:Record<string,unknown>}[]}).__pausepalTestCalls.filter(call=>call.command===name),command)
+  return page.evaluate(name => (window as unknown as {__restnaaTestCalls:{command:string;args:Record<string,unknown>}[]}).__restnaaTestCalls.filter(call=>call.command===name),command)
 }

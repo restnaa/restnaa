@@ -30,7 +30,7 @@ pub fn run() {
             if let Err(error) = native::notifications::register_click_handler(app.handle()) { native::warn(app.handle(), &error); }
             let opened = app.path().app_data_dir().map_err(|_| ()).and_then(|path| {
                 std::fs::create_dir_all(&path).map_err(|_| ())?;
-                storage::Storage::open(&path.join("pausepal.sqlite3")).map_err(|_| ())
+                storage::Storage::open(&path.join("restnaa.sqlite3")).map_err(|_| ())
             });
             let scheduler = opened.and_then(|storage| scheduler::service::spawn(storage, app.handle().clone()).map_err(|_| ()));
             let state = match scheduler {

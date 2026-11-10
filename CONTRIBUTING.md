@@ -19,7 +19,7 @@ Open a focused issue for bugs with version, Windows version, reproduction steps 
 
 CI runs on Windows. It is not evidence of clean Windows 10/11, physical sleep/wake, DND, sign-in or screen-reader validation. Dependency downloads are build-time activities, not runtime feature authorization.
 
-Use semantic controls, keyboard access, visible focus, sufficient contrast and reduced-motion support. Preserve the legacy identifier/data path and executable unless an explicit migration plan is approved.
+Use semantic controls, keyboard access, visible focus, sufficient contrast and reduced-motion support. Use com.restnaa.desktop, restnaa.sqlite3 and restnaa.exe consistently. Future public identity changes need an explicit data/installation plan.
 
 ## License and conduct
 

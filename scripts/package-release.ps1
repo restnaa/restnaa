@@ -14,7 +14,7 @@ try {
     New-Item -ItemType Directory -Path (Join-Path $destination 'docs') -Force | Out-Null
     $installer=Join-Path $destination $filename
     Copy-Item -LiteralPath $source -Destination $installer -Force
-    $documents=@('RELEASE_NOTES.md','PRIVACY.md','docs/INSTALLATION.md','docs/KNOWN_LIMITATIONS.md','docs/RELEASE_AUDIT.md','docs/OPEN_SOURCE_REPORT.md','docs/OPEN_SOURCE_PLAN.md','docs/NAME_CORRECTION.md','LICENSE','THIRD_PARTY_NOTICES.md')
+    $documents=@('RELEASE_NOTES.md','PRIVACY.md','docs/INSTALLATION.md','docs/KNOWN_LIMITATIONS.md','docs/RELEASE_AUDIT.md','docs/OPEN_SOURCE_REPORT.md','docs/OPEN_SOURCE_PLAN.md','docs/NAME_CORRECTION.md','docs/IDENTITY_RESET.md','LICENSE','THIRD_PARTY_NOTICES.md')
     foreach($document in $documents){Copy-Item -LiteralPath (Join-Path $repoRoot $document) -Destination (Join-Path $destination $document) -Force}
     $encoding=[System.Text.UTF8Encoding]::new($false)
     $hash=(Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()

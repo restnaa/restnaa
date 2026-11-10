@@ -46,7 +46,7 @@ No medical claims, posture sensing, webcam, screen recording, background employe
 
 ## 5. User journeys
 ### 5.1 First launch
-1. Welcome screen: promise and privacy explanation.
+1. First-run Settings: promise, privacy explanation and configuration.
 2. Choose eye interval (default 20 min; 10–120 min) and movement interval (default 45 min; 15–180 min).
 3. Choose working hours (default weekdays 09:00–18:00, editable) and whether to start on login (OFF by default).
 4. Explain OS notifications and request permission only if required and supported.

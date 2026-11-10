@@ -35,7 +35,7 @@ pub fn setup(app: &AppHandle) -> Result<(), String> {
                 &resume, &settings, &quit,
             ],
         )?;
-        let mut builder = TrayIconBuilder::with_id("pausepal")
+        let mut builder = TrayIconBuilder::with_id("restnaa")
             .tooltip("Restnaa")
             .menu(&menu)
             .show_menu_on_left_click(false)
@@ -133,7 +133,7 @@ pub fn update(app: &AppHandle, state: &DashboardState) {
     } else {
         format!("Restnaa — {label}")
     };
-    if let Some(tray) = app.tray_by_id("pausepal") {
+    if let Some(tray) = app.tray_by_id("restnaa") {
         let _ = tray.set_tooltip(Some(&text));
     }
     if let Ok(controls) = app.state::<NativeRuntime>().tray_controls.lock() {

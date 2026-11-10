@@ -2,7 +2,7 @@
 #[cfg(windows)]
 fn main() {
     use windows::{core::HSTRING, UI::Notifications::ToastNotificationManager};
-    let id = HSTRING::from("com.pausepal.desktop");
+    let id = HSTRING::from("com.restnaa.desktop");
     match ToastNotificationManager::CreateToastNotifierWithId(&id).and_then(|n| n.Setting()) {
         Ok(setting) => println!("permission={setting:?}"),
         Err(error) => println!("permission_error={error}"),

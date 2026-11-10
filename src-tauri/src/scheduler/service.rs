@@ -155,7 +155,7 @@ pub fn spawn(storage: Storage, app: AppHandle) -> Result<SchedulerHandle, String
     let (sender, receiver) = mpsc::channel();
     let (ready, ready_rx) = mpsc::sync_channel(1);
     thread::Builder::new()
-        .name("pausepal-scheduler".into())
+        .name("restnaa-scheduler".into())
         .spawn(move || {
             match Session::open(storage, SystemClock::default()) {
                 Ok((session, effects)) => {

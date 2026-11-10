@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         _ => return Err("Usage: notification_probe [--snapshot FILE | --since FILE]".into()),
     };
     let history = ToastNotificationManager::History()?
-        .GetHistoryWithId(&HSTRING::from("com.pausepal.desktop"))?;
+        .GetHistoryWithId(&HSTRING::from("com.restnaa.desktop"))?;
     let count = history.Size()?;
     let mut entries = Vec::new();
     let mut unreadable = 0_u32;
@@ -47,11 +47,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if let [flag, path] = args.as_slice() {
         if flag == "--snapshot" {
             std::fs::write(path, serde_json::to_vec(&entries)?)?;
-            println!("{{\"appId\":\"com.pausepal.desktop\",\"snapshotCount\":{count},\"unreadableHistoryCount\":{unreadable}}}");
+            println!("{{\"appId\":\"com.restnaa.desktop\",\"snapshotCount\":{count},\"unreadableHistoryCount\":{unreadable}}}");
             return Ok(());
         }
     }
-    println!("{{\"appId\":\"com.pausepal.desktop\",\"historyCount\":{count},\"unreadableHistoryCount\":{unreadable},\"freshCheck\":{},\"testReminderFound\":{found},\"testHasActionButtons\":{has_actions}}}", before.is_some());
+    println!("{{\"appId\":\"com.restnaa.desktop\",\"historyCount\":{count},\"unreadableHistoryCount\":{unreadable},\"freshCheck\":{},\"testReminderFound\":{found},\"testHasActionButtons\":{has_actions}}}", before.is_some());
     if !found || has_actions {
         std::process::exit(2);
     }

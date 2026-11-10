@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory=$true)][string]$OutputPath
 )
 $ErrorActionPreference='Stop'
-if((Get-Process -Id $AppProcessId).ProcessName -ne 'pausepal'){throw 'Select the installed Restnaa process only.'}
+if((Get-Process -Id $AppProcessId).ProcessName -ne 'restnaa'){throw 'Select the installed Restnaa process only.'}
 function Read-AppTree {
     $all=Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId
     $ids=[System.Collections.Generic.HashSet[int]]::new()

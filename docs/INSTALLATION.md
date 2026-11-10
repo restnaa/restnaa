@@ -1,15 +1,15 @@
 # Windows installation and operation
 
-This is a **0.1.3 release candidate**, not a completed clean-machine release. Target: Windows 10/11 x64. Current host verification and remaining gates are in [RELEASE_AUDIT.md](RELEASE_AUDIT.md).
+This is a **0.1.4 release candidate**, not a completed clean-machine release. Target: Windows 10/11 x64. Current host verification and remaining gates are in [RELEASE_AUDIT.md](RELEASE_AUDIT.md).
 
 ## Verify and install
 
-The generated `release` folder contains `Restnaa_0.1.3_x64-setup.exe`, its `.sha256`, `manifest.json`, and release/privacy/installation/limitation/audit documents.
+The generated `release` folder contains `Restnaa_0.1.4_x64-setup.exe`, its `.sha256`, `manifest.json`, and release/privacy/installation/limitation/audit documents.
 
 ```powershell
-Get-FileHash .\Restnaa_0.1.3_x64-setup.exe -Algorithm SHA256
-Get-Content .\Restnaa_0.1.3_x64-setup.exe.sha256
-Get-AuthenticodeSignature .\Restnaa_0.1.3_x64-setup.exe
+Get-FileHash .\Restnaa_0.1.4_x64-setup.exe -Algorithm SHA256
+Get-Content .\Restnaa_0.1.4_x64-setup.exe.sha256
+Get-AuthenticodeSignature .\Restnaa_0.1.4_x64-setup.exe
 ```
 
 Compare the complete hash with the supplied checksum. The checksum detects a mismatch; it does not establish a trusted publisher. This candidate is unsigned. Public distribution/signing and SmartScreen reputation have not been approved or verified.
@@ -29,7 +29,7 @@ WebView2 Evergreen is required. The NSIS download-bootstrapper mode may access M
 
 ## Upgrade, uninstall and recovery
 
-Quit the old app before upgrading. Install over the same user installation. Back up `%APPDATA%\com.pausepal.desktop` first if you need a recovery copy, with the app fully quit. Never run two portable/installed variants against the same data intentionally.
+Quit the old app before upgrading. Install over the same user installation. Back up `%APPDATA%\com.restnaa.desktop` first if you need a recovery copy, with the app fully quit. Never run two portable/installed variants against the same data intentionally.
 
 To uninstall, Quit and use Windows Settings → Apps → Installed apps → Restnaa → Uninstall. The generated uninstaller removes startup registration on a normal uninstall, preserves it during an update, and normally retains app data. Select **Delete app data** only if you intend to erase this app's local preferences and history. Clear history in the app deletes outcomes only; Windows notification history is separate.
 
@@ -53,6 +53,6 @@ npm run package:windows
 
 Browser tests use production preview assets, Playwright/Edge and test-only IPC fixtures for workflow coverage. They are not proof of native Windows behaviors. Hosted CI, signed distribution and clean-machine testing require separate evidence.
 
-## Existing PausePal installations
+## Development profiles
 
-Restnaa retains com.pausepal.desktop, pausepal.sqlite3 and pausepal.exe for compatibility. Quit PausePal before installing. Back up its stopped profile first. Renamed-installer upgrade, retained install directory, existing startup registration and Windows notification identity require installed acceptance; do not assume those checks passed from an old PausePal build. Do not manually move/delete the database or run both names concurrently.
+This candidate uses com.restnaa.desktop, restnaa.exe and restnaa.sqlite3. No automatic import from previous development identities occurs, and their data is not deleted. No public-installation migration is required. Fully quit other development builds before testing; different app identities are separate applications and may run independently.

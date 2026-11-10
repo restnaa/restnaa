@@ -1,11 +1,5 @@
-> Historical record using the earlier Restna spelling. The correct current name is Restnaa. See [name correction](NAME_CORRECTION.md). Original build paths, hashes and evidence below are preserved.
+# Restnaa open-source plan
 
-# Restna rename and open-source preparation plan
+The source is MIT licensed and published at https://github.com/restnaa/restnaa. Current identity is defined in [identity reset](IDENTITY_RESET.md). No public profile compatibility is required. Use Restnaa for all branding, executables, data paths, diagnostics and tests.
 
-Authorized 2026-11-10: rename PausePal to Restna and prepare source for contributors on GitHub. This supersedes the branding-only scope in earlier plans; product, scheduling, privacy and M5 release gates still apply.
-
-Files: src/**/*.tsx/ts and index.html/public/restna.svg for visible naming and matching tests; src-tauri/tauri.conf.json, Cargo.toml/Cargo.lock, main.rs, native strings and package manifests for branding/package metadata. Keep com.pausepal.desktop, pausepal.sqlite3 and pausepal.exe as legacy compatibility identifiers; explicitly pin the legacy executable basename in Cargo; actual retained paths/startup registrations still require installed upgrade acceptance. No migration, data reset, command/ACL or scheduling change. Product version 0.1.3 distinguishes the renamed candidate.
-
-Documentation: README, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, third-party notices, GitHub issue/PR templates and Windows CI. Add a license after user choice. Update current install/privacy/release docs; preserve historical audits with an explicit historical banner. Ignore personal environment files, SQLite databases, credentials, tools/build output and installer exports. Prepare a source-only publication inventory before any upload; do not invent a GitHub owner/URL or publish without instruction.
-
-Verification: unit/UI tests, lint, typecheck/build, Rust tests/format/Clippy and Windows NSIS build. Check branding and legacy identity explicitly, relative links, source inventory, likely credentials and private paths. Historical OS results do not certify this renamed installer; installed upgrade, old startup registration, single instance, notification identity and clean Windows remain pending until tested. License and asset attribution must be recorded; no medical claims or new features.
+Keep the Rust scheduler authoritative, offline product scope, narrow Tauri capabilities and accessible React UI. Contributor/security/conduct guides, issue/PR templates and Windows CI live in the repository. Exclude tools, dependencies, databases, credentials, generated outputs and installer archives. Review staged content and actual checks before committing/pushing. Earlier exact evidence remains in Git history; do not fabricate new validation by renaming old records.

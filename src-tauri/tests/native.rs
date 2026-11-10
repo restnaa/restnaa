@@ -333,12 +333,19 @@ fn automatic_panel_claim_is_once_per_reminder_and_dismissal_cannot_reopen_it() {
 }
 
 #[test]
-fn restnaa_branding_preserves_legacy_profile_and_binary_identity() {
+fn restnaa_branding_uses_consistent_profile_and_binary_identity() {
     let config: serde_json::Value =
         serde_json::from_str(include_str!("../tauri.conf.json")).unwrap();
     assert_eq!(config["productName"], "Restnaa");
-    assert_eq!(config["identifier"], "com.pausepal.desktop");
-    assert_eq!(config["mainBinaryName"], "pausepal");
+    assert_eq!(config["identifier"], "com.restnaa.desktop");
+    assert_eq!(config["mainBinaryName"], "restnaa");
     assert_eq!(config["app"]["windows"][0]["title"], "Restnaa");
-    assert!(include_str!("../src/lib.rs").contains("pausepal.sqlite3"));
+    assert!(include_str!("../src/lib.rs").contains("restnaa.sqlite3"));
+    assert!(include_str!("../Cargo.toml").contains("default-run = \"restnaa\""));
+    for diagnostic in [
+        include_str!("../examples/notification_probe.rs"),
+        include_str!("../examples/notification_diagnostics.rs"),
+    ] {
+        assert!(diagnostic.contains("com.restnaa.desktop"));
+    }
 }
