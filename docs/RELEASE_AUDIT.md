@@ -24,3 +24,13 @@ Record exact commands, OS/build identity, actual outcomes and failures. Never pr
 Local 0.1.4 validation recorded 63 frontend unit tests, 30 browser workflow tests and 52 Rust tests passing, plus lint, typecheck, formatting, Clippy and an NSIS build. These are automated/local checks, not installed acceptance.
 
 Hosted run 42730323647 passed dependency installation, frontend checks and Rust checks and produced the NSIS installer. Release export then failed because Get-FileHash was unavailable. The packaging script now uses .NET SHA-256; a subsequent hosted run must verify the repair. No clean-machine or installed Windows pass is implied.
+
+## Logo and palette update (2026-11-12)
+
+The supplied logo is retained in public/brand; the cropped crescent-and-eye mark is used by the app, favicon and Windows bundle icons. Dashboard, Settings, History and break panels use teal/sage styling. No Rust scheduler or command implementation changed.
+
+Executed: npm run lint; npm run typecheck; npm test -- --run --maxWorkers=1 (63 passed); npm run test:ui -- --workers=2 (30 passed, including a production Vite build, WCAG checks, release-CSP asset loading, keyboard, forced colors, reduced motion, compact and high-DPI views). Browser plugin unavailable; Playwright/Edge used at 127.0.0.1:1420. Original logo and rendered desktop/compact captures were visually compared.
+
+The first cargo invocation could not find cargo on PATH. With the repository-local Rust environment, the initial compile selected an incomplete Community C++ toolchain and failed on missing excpt.h; its vcvarsall.bat was also missing. Selecting the complete x64 BuildTools environment resolved this. cargo build --manifest-path src-tauri/Cargo.toml --release --locked passed. This direct Cargo build uses the local preview URL; desktop captures used the production Vite assets there and the real Rust IPC backend. Original schedule settings were restored exactly after the break-panel capture, and the app was quit. README images show app content without Windows title bars.
+
+No NSIS installer or installed/clean-machine validation was performed for this visual update. Installed tray/taskbar/toast icon appearance and the existing OS acceptance gates remain pending.

@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react'
-import { House, Settings, History, Pause } from 'lucide-react'
+import { House, Settings, History } from 'lucide-react'
 import type { Page } from '../lib/types'
 const pages = [
   { id: 'dashboard', label: 'Dashboard', icon: House },
@@ -16,7 +16,7 @@ export function AppLayout({ page, navigate, children }: { page: Page; navigate: 
   return <div className="app-shell">
     <a className="skip-link" href="#main-content">Skip to content</a>
     <header className="app-header">
-      <div className="brand"><span className="brand-mark"><Pause size={23} fill="currentColor" strokeWidth={0} aria-hidden="true" /></span><span>Restnaa</span></div>
+      <div className="brand"><img className="brand-mark" src="/brand/restnaa-mark.png" alt="" width="43" height="43" /><span>Restnaa</span></div>
       <nav aria-label="Main navigation">{pages.map(({ id, label, icon: Icon }) => <button key={id} type="button" aria-current={page === id ? 'page' : undefined} onClick={() => navigate(id)}><Icon size={22} strokeWidth={1.8} aria-hidden="true" /><span>{label}</span></button>)}</nav>
     </header>
     <main id="main-content" ref={mainRef} tabIndex={-1} className="workspace">{children}</main>

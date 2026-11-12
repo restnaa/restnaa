@@ -1,5 +1,7 @@
 # Restnaa
 
+<img src="public/brand/restnaa-lockup.png" alt="Restnaa crescent moon and resting eye logo" width="240">
+
 [Source and issues](https://github.com/restnaa/restnaa)
 
 A quiet, offline Windows desktop app that reminds you to rest your eyes and move.
@@ -20,15 +22,15 @@ Windows DND detection is best effort. Use app Pause or Quiet mode for guaranteed
 
 ## Screenshots
 
-Captured from the Windows desktop build of Restnaa 0.1.4. These are actual app views; history is empty in this profile. Captures show the app content without Windows title bars.
+Captured from the Windows desktop build of Restnaa 0.1.4. These are actual app views from a local test profile; counts reflect that profile. Captures show the app content without Windows title bars.
 
 ### Dashboard
 
-![Restnaa dashboard with eye and movement reminders, schedule, pause controls and today?s outcomes](docs/screenshots/dashboard.png)
+![Restnaa dashboard with eye and movement reminders, schedule, pause controls and today's outcomes](docs/screenshots/dashboard.png)
 
 ### Break popup
 
-The app?s eye-break panel offers Done, Snooze and Skip. This is separate from the native Windows notification banner; Windows banners may be suppressed by Do Not Disturb. A Windows banner capture is not included here.
+The app's eye-break panel offers Done, Snooze and Skip. This is separate from the native Windows notification banner; Windows banners may be suppressed by Do Not Disturb. A Windows banner capture is not included here.
 
 <img src="docs/screenshots/eye-break.png" alt="Restnaa eye-break popup with Done, Snooze 5 min, Skip and Close for now" width="440">
 
@@ -42,7 +44,7 @@ The app?s eye-break panel offers Done, Snooze and Skip. This is separate from th
 <details>
 <summary>Local history</summary>
 
-![Restnaa seven-day history showing zero completed breaks and an empty activity list](docs/screenshots/history.png)
+![Restnaa seven-day local history with daily activity groups and separate outcome totals](docs/screenshots/history.png)
 
 </details>
 

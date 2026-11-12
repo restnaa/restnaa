@@ -21,6 +21,10 @@ CI runs on Windows. It is not evidence of clean Windows 10/11, physical sleep/wa
 
 Use semantic controls, keyboard access, visible focus, sufficient contrast and reduced-motion support. Use com.restnaa.desktop, restnaa.sqlite3 and restnaa.exe consistently. Future public identity changes need an explicit data/installation plan.
 
+## Visual identity
+
+Use the supplied artwork in `public/brand/`. `restnaa-logo.png` is the original transparent logo; `restnaa-lockup.png` places it on a light background for readable documentation. The crescent-and-eye `restnaa-mark.png` is used in the app, favicon and Windows icons. Keep the deep-teal and sage palette in `src/styles.css` consistent across dashboard, settings, history and break panels. Preserve visible focus, contrast, reduced motion and text labels for state.
+
 ## License and conduct
 
 By contributing, you agree your original contribution is provided under the project's MIT license. Include attribution/license information for third-party work; do not submit content you cannot license. No CLA is currently required. Follow CODE_OF_CONDUCT.md. Maintainers review scope and may request a smaller patch.
