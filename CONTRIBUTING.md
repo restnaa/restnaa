@@ -10,7 +10,7 @@ Open a focused issue for bugs with version, Windows version, reproduction steps 
 
 ## Pull requests
 
-1. Fork and create a focused branch.
+1. Fork and create a focused branch from the latest `main`, using `feat/<description>`, `fix/<description>` or `docs/<description>`.
 2. Keep scheduler, validation, storage and OS integration in Rust. Do not introduce JS reminder timers, broad capabilities or network calls.
 3. Preserve independent deadlines and all four distinct outcomes. Close/Escape must never imply completion. Preserve nonactivating automatic presentation and paired native hide.
 4. Add regression tests for meaningful behavior changes; use injectable clocks instead of wall-clock sleeps.
@@ -18,6 +18,22 @@ Open a focused issue for bugs with version, Windows version, reproduction steps 
 6. Explain the problem, final behavior, tests and limitations in the PR. Keep unrelated formatting or dependencies out.
 
 CI runs on Windows. It is not evidence of clean Windows 10/11, physical sleep/wake, DND, sign-in or screen-reader validation. Dependency downloads are build-time activities, not runtime feature authorization.
+
+## Branch workflow
+
+`main` is the stable integration branch. Keep changes on short-lived branches and open pull requests targeting `main`; there is no permanent `dev` branch. For example:
+
+```powershell
+git switch main
+git pull --ff-only origin main
+git switch -c fix/reminder-dismissal
+# Make and validate the focused change, then commit it.
+git push -u origin fix/reminder-dismissal
+```
+
+Open a pull request from the pushed branch to `main`. Contributors without repository write access should push to their fork instead. Merge after review and passing Windows CI, then delete the merged branch. A passing CI run does not make an unverified build a stable release. Publish releases from reviewed `main` commits using version tags as described below.
+
+Maintainers should protect `main` in GitHub Settings > Branches: require a pull request, require the `release-candidate` status check from the Windows desktop workflow, require branches to be up to date, require resolved conversations, and block force pushes and deletion. These are intended repository settings; this document does not enable them. An additional approval is encouraged when another maintainer is available, but is not required while there is only one active maintainer. Do not require the tag-only release workflow on pull requests.
 
 Use semantic controls, keyboard access, visible focus, sufficient contrast and reduced-motion support. Use com.restnaa.desktop, restnaa.sqlite3 and restnaa.exe consistently. Future public identity changes need an explicit data/installation plan.
 
