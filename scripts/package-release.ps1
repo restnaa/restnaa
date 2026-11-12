@@ -1,11 +1,6 @@
 param([switch]$SkipBuild)
 $ErrorActionPreference='Stop'
-function Get-Sha256([string]$LiteralPath) {
-    $stream=[System.IO.File]::OpenRead($ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($LiteralPath))
-    $algorithm=[System.Security.Cryptography.SHA256]::Create()
-    try { return ([System.BitConverter]::ToString($algorithm.ComputeHash($stream))).Replace('-','').ToLowerInvariant() }
-    finally { $algorithm.Dispose(); $stream.Dispose() }
-}
+. (Join-Path $PSScriptRoot 'release-functions.ps1')
 $repoRoot=[System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 Push-Location $repoRoot
 try {
@@ -35,7 +30,7 @@ try {
         sourceCommit=$sourceCommit;sourceDirty=$sourceDirty
         product='Restnaa';version=$config.version;releaseCandidate=$true;platform='windows-x86_64';identifier=$config.identifier
         generatedAtUtc=[DateTime]::UtcNow.ToString('o');installer=$filename;bytes=(Get-Item -LiteralPath $installer).Length;sha256=$hash
-        authenticodeStatus=(Get-AuthenticodeSignature -LiteralPath $installer).Status.ToString()
+        authenticodeStatus=(Get-ReleaseSignatureStatus -LiteralPath $installer)
         webview2='Evergreen required; download bootstrapper may need internet if runtime is absent'
         lockfiles=@{npm=(Get-Sha256 'package-lock.json');cargo=(Get-Sha256 'src-tauri/Cargo.lock')}
         audit='docs/RELEASE_AUDIT.md';limitations='docs/KNOWN_LIMITATIONS.md'

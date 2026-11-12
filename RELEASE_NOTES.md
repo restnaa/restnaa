@@ -1,4 +1,4 @@
-# Restnaa 0.1.4 Beta 1
+# Restnaa 0.1.4 Beta 2
 
 An early Windows 10/11 x64 pre-release for feedback and contributions. This is unsigned beta software; clean-machine and several native Windows acceptance checks remain pending.
 
@@ -30,3 +30,7 @@ The release workflow runs frontend and Rust checks and verifies the installer ch
 ## Local candidate smoke checks
 
 A local NSIS build installed and launched on an existing Windows 11 Pro host. The new UI, eye-break completion, pause/resume, single-instance prevention and Quit passed smoke checks; original settings were restored and startup stayed off. Notification submission returned unconfirmed delivery. The hosted installer attached here is built independently from the release tag and carries its own SHA-256; visible notification delivery, physical window dismissal and clean-machine acceptance remain pending.
+
+## Packaging repair
+
+Beta 1 was not published: its installer built, but signature-metadata export failed because an inherited PowerShell module could not load. Beta 2 explicitly loads the security module from the running PowerShell installation, tests that regression, and runs hosted packaging in the runner's native pwsh shell. Signature inspection still fails the export if it cannot run; no successful signature result is fabricated.

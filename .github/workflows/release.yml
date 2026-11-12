@@ -28,6 +28,8 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+      - name: Test release export helpers
+        run: powershell -NoProfile -File scripts/test-release.ps1
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
@@ -40,7 +42,7 @@ jobs:
         id: package
         shell: pwsh
         run: |
-          npm run package:windows
+          ./scripts/package-release.ps1
           if($LASTEXITCODE -ne 0){throw 'Packaging failed.'}
           $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
           "directory=release/restnaa-$version" >> $env:GITHUB_OUTPUT

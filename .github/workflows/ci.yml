@@ -20,6 +20,8 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
+      - name: Test release export helpers
+        run: powershell -NoProfile -File scripts/test-release.ps1
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
@@ -29,7 +31,9 @@ jobs:
       - run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
       - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --locked -- -D warnings
       - run: cargo test --manifest-path src-tauri/Cargo.toml --all-targets --locked
-      - run: npm run package:windows
+      - name: Package Windows installer
+        shell: pwsh
+        run: ./scripts/package-release.ps1
       - uses: actions/upload-artifact@v4
         with:
           name: restnaa-windows-release-candidate
