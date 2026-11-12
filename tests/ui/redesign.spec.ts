@@ -53,7 +53,7 @@ test('history day disclosure, native toggles and Quit retain actual command path
   expect(await commandCalls(page,'quit_app')).toHaveLength(1)
 })
 
-test('bundled landscape loads under the actual release CSP without inline data URLs',async({page})=>{
+test('light palette and supplied logo load under the release CSP',async({page})=>{
   const {readFileSync}=await import('node:fs')
   const csp=JSON.parse(readFileSync('src-tauri/tauri.conf.json','utf8')).app.security.csp
   const errors:string[]=[];page.on('console',message=>{if(message.type()==='error')errors.push(message.text())})
@@ -63,14 +63,9 @@ test('bundled landscape loads under the actual release CSP without inline data U
   })
   await installDesktopFixture(page);await page.goto('/')
   await expect(page.getByRole('heading',{level:1})).toBeVisible()
-  const background=await page.locator('.page-header').evaluate(element=>getComputedStyle(element,'::before').backgroundImage)
-  expect(background).toContain('night-landscape')
-  expect(background).not.toContain('data:')
-  const loaded=await page.evaluate(async background=>{
-    const url=background.slice(5,-2)
-    return new Promise<boolean>(resolve=>{const image=new Image();image.onload=()=>resolve(image.naturalWidth>0);image.onerror=()=>resolve(false);image.src=url})
-  },background)
-  expect(loaded).toBe(true)
+  expect(await page.locator('.app-shell').evaluate(element => getComputedStyle(element).backgroundColor)).toBe('rgb(240, 248, 234)')
+  expect(await page.locator('h1').evaluate(element => getComputedStyle(element).color)).toBe('rgb(38, 12, 26)')
+  expect(await page.locator('.page-header').evaluate(element => getComputedStyle(element, '::before').display)).toBe('none')
   const brand = page.locator('.brand-mark')
   await expect(brand).toBeVisible()
   expect(await brand.evaluate(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0)).toBe(true)

@@ -22,7 +22,7 @@ Windows DND detection is best effort. Use app Pause or Quiet mode for guaranteed
 
 ## Screenshots
 
-Captured from the Windows desktop build of Restnaa 0.1.4. These are actual app views from a local test profile; counts reflect that profile. Captures show the app content without Windows title bars.
+The light interface uses a pale background with plum accents. Captured from the Windows desktop build of Restnaa 0.1.4. These are actual app views from a local test profile; counts reflect that profile. Captures show the app content without Windows title bars.
 
 ### Dashboard
 
