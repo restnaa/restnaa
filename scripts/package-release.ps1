@@ -27,7 +27,12 @@ try {
     [System.IO.File]::WriteAllText(($installer+'.sha256'),($hash+'  '+$filename+"`n"),$encoding)
     $readme="# Restnaa release candidate`n`nStart with [installation](docs/INSTALLATION.md), [release notes](RELEASE_NOTES.md), [privacy](PRIVACY.md), [audit evidence](docs/RELEASE_AUDIT.md) and [limitations](docs/KNOWN_LIMITATIONS.md).`n`nVerify the installer against its SHA-256 file. This candidate is unsigned and still has manual release gates. Build instructions refer to the source repository checkout and its README.`n"
     [System.IO.File]::WriteAllText((Join-Path $destination 'README.md'),$readme,$encoding)
+    $sourceCommit=(& git rev-parse HEAD).Trim()
+    if($LASTEXITCODE -ne 0){throw 'Could not determine the release source revision.'}
+    $sourceDirty=@(& git status --porcelain).Count -gt 0
+    if($LASTEXITCODE -ne 0){throw 'Could not determine source worktree status.'}
     $manifest=[ordered]@{
+        sourceCommit=$sourceCommit;sourceDirty=$sourceDirty
         product='Restnaa';version=$config.version;releaseCandidate=$true;platform='windows-x86_64';identifier=$config.identifier
         generatedAtUtc=[DateTime]::UtcNow.ToString('o');installer=$filename;bytes=(Get-Item -LiteralPath $installer).Length;sha256=$hash
         authenticodeStatus=(Get-AuthenticodeSignature -LiteralPath $installer).Status.ToString()

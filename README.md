@@ -10,6 +10,10 @@ Restnaa uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLi
 
 **Status: 0.1.4 release candidate.** Contributions are welcome; stable binary release approval is pending. Windows 10/11 are the targets. Clean-machine testing, signing, installed rename/upgrade, startup and notification identity checks remain open. Existing platform limits are documented in [known limitations](docs/KNOWN_LIMITATIONS.md). Source publication is not a claim of production readiness.
 
+## Download the Windows beta
+
+[Get the Windows installer](https://github.com/restnaa/restnaa/releases/tag/v0.1.4-beta.1) and its matching `.sha256` checksum. This is an unsigned pre-release; review the [installation instructions](docs/INSTALLATION.md) and [known limitations](docs/KNOWN_LIMITATIONS.md) before installing.
+
 ## What it does
 
 - Independent eye/movement intervals, selected working days/hours and Quiet mode.

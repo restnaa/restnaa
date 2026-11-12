@@ -1,7 +1,32 @@
-# Restnaa 0.1.4 release candidate
+# Restnaa 0.1.4 Beta 1
 
-All product naming now uses Restnaa: desktop branding, npm/Rust package and library, installer, executable restnaa.exe, application identifier com.restnaa.desktop, SQLite restnaa.sqlite3, tray/worker IDs, diagnostics and test fixtures.
+An early Windows 10/11 x64 pre-release for feedback and contributions. This is unsigned beta software; clean-machine and several native Windows acceptance checks remain pending.
 
-No public installations require migration. This fresh identity starts its own local profile; previous development data is neither migrated nor deleted. Scheduler, outcomes, capabilities and nonactivating-window/dismissal policies remain unchanged.
+## Included
 
-MIT licensed; contribution/security guidance and GitHub templates are included. See [release verification and pending checks](docs/RELEASE_AUDIT.md). Earlier internal audit evidence is preserved in Git history rather than relabeled as new-identity evidence. The installer is unsigned. Installed native behavior, clean Windows 10/11 and other manual release gates remain pending.
+- The new crescent-and-resting-eye logo and simpler light interface: pale background, plum text and buttons.
+- Independent eye and movement reminders, working hours, Quiet mode, timed/manual pause and local history.
+- Automatic break panels with Done, Snooze and Skip, native notifications and tray fallback.
+- Offline operation, local SQLite storage, no account or telemetry implementation, and opt-in startup.
+- MIT source licensing and contributor documentation.
+
+## Download and install
+
+Download `Restnaa_0.1.4_x64-setup.exe` and its `.sha256` file from this release. Compare the complete SHA-256 checksum before installation. The checksum detects mismatches; the installer is not signed and does not establish a trusted publisher. Follow the attached INSTALLATION.md. Windows may need to download WebView2 if it is absent.
+
+Quit any running Restnaa build before installing. Back up its stopped data directory if you want a recovery copy. This app uses `%APPDATA%\com.restnaa.desktop\restnaa.sqlite3`. Earlier development identities are not imported or deleted.
+
+## Known limitations and verification
+
+- Windows Do Not Disturb detection is best effort. Use Restnaa Pause or Quiet mode for guaranteed app quiet.
+- Windows notifications have no Done/Snooze/Skip toast buttons; these actions live in the break panel. Action Center activation is not guaranteed.
+- Overnight schedules are rejected. The process must stay running for reminders.
+- Local SQLite is not encrypted by the app. Completion records the user's explicit action and makes no medical or exercise-verification claim.
+- Clean Windows 10/11, installed banner/click/denial/DND behavior, actual startup at sign-in, physical sleep/wake, screen reader, prolonged use, signing and complete bundled dependency licensing review remain pending.
+- The application implements no network calls; a strict zero-egress claim covering Windows/WebView2 has not been established.
+
+The release workflow runs frontend and Rust checks and verifies the installer checksum and source revision before publication. This does not certify the pending manual checks. See the attached KNOWN_LIMITATIONS.md, PRIVACY.md, LICENSE and THIRD_PARTY_NOTICES.md, and the repository release audit for detailed evidence.
+
+## Local candidate smoke checks
+
+A local NSIS build installed and launched on an existing Windows 11 Pro host. The new UI, eye-break completion, pause/resume, single-instance prevention and Quit passed smoke checks; original settings were restored and startup stayed off. Notification submission returned unconfirmed delivery. The hosted installer attached here is built independently from the release tag and carries its own SHA-256; visible notification delivery, physical window dismissal and clean-machine acceptance remain pending.

@@ -28,3 +28,7 @@ Use the supplied artwork in `public/brand/`. `restnaa-logo.png` is the original 
 ## License and conduct
 
 By contributing, you agree your original contribution is provided under the project's MIT license. Include attribution/license information for third-party work; do not submit content you cannot license. No CLA is currently required. Follow CODE_OF_CONDUCT.md. Maintainers review scope and may request a smaller patch.
+
+## Maintainer beta releases
+
+Update release notes, installation guidance and the audit before publishing. From a reviewed, clean commit on main, push an annotated tag `v<package version>-beta.<number>` (for example `v0.1.4-beta.1`). The Publish Windows beta workflow validates the tag, runs frontend/Rust checks, builds NSIS and uploads the candidate. A separate job with release-write permission verifies its source commit, clean worktree and SHA-256, uploads eight assets to a draft, then publishes it as a pre-release. Build jobs have read-only repository access. Existing tags/releases are never overwritten by the workflow. Keep clean-machine and installed native checks explicit in the release notes.

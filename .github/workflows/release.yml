@@ -1,0 +1,97 @@
+name: Publish Windows beta
+on:
+  push:
+    tags: ['v*-beta.*']
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Validate beta tag
+        shell: pwsh
+        run: |
+          $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
+          $pattern='^v'+[regex]::Escape($version)+'-beta\.[1-9][0-9]*$'
+          if($env:GITHUB_REF_NAME -notmatch $pattern){throw 'Beta tag must match the application version.'}
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test -- --run --maxWorkers=1
+      - run: npm run test:ui -- --workers=2
+      - run: cargo fmt --manifest-path src-tauri/Cargo.toml -- --check
+      - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --locked -- -D warnings
+      - run: cargo test --manifest-path src-tauri/Cargo.toml --all-targets --locked
+      - name: Build NSIS installer and export documentation
+        id: package
+        shell: pwsh
+        run: |
+          npm run package:windows
+          if($LASTEXITCODE -ne 0){throw 'Packaging failed.'}
+          $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
+          "directory=release/restnaa-$version" >> $env:GITHUB_OUTPUT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-beta
+          path: ${{ steps.package.outputs.directory }}/
+          if-no-files-found: error
+          retention-days: 14
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-beta
+          path: release
+      - name: Verify release artifact
+        env:
+          RELEASE_COMMIT: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path('release')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          assert manifest['sourceCommit'] == os.environ['RELEASE_COMMIT'], 'Source revision mismatch'
+          assert manifest['sourceDirty'] is False, 'Release was built from a dirty worktree'
+          assert manifest['releaseCandidate'] is True
+          assert manifest['identifier'] == 'com.restnaa.desktop'
+          installer = root / manifest['installer']
+          assert installer.name == f"Restnaa_{manifest['version']}_x64-setup.exe"
+          assert installer.stat().st_size == manifest['bytes']
+          assert hashlib.sha256(installer.read_bytes()).hexdigest() == manifest['sha256']
+          assert (root / (installer.name + '.sha256')).read_text().strip() == manifest['sha256'] + '  ' + installer.name
+          for name in ['RELEASE_NOTES.md','PRIVACY.md','docs/INSTALLATION.md','docs/KNOWN_LIMITATIONS.md','LICENSE','THIRD_PARTY_NOTICES.md']:
+              assert (root / name).is_file(), name
+          PY
+      - name: Upload assets and publish pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          installer=$(python3 -c "import json; print(json.load(open('release/manifest.json'))['installer'])")
+          gh release create "$GITHUB_REF_NAME" --verify-tag --draft --prerelease \
+            --title "Restnaa $GITHUB_REF_NAME - Windows beta" --notes-file release/RELEASE_NOTES.md \
+            "release/$installer" "release/$installer.sha256" release/manifest.json \
+            release/PRIVACY.md release/docs/INSTALLATION.md release/docs/KNOWN_LIMITATIONS.md \
+            release/LICENSE release/THIRD_PARTY_NOTICES.md
+          test "$(gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets | length')" -eq 8
+          gh release edit "$GITHUB_REF_NAME" --draft=false --prerelease

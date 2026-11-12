@@ -4,6 +4,8 @@ This is a **0.1.4 release candidate**, not a completed clean-machine release. Ta
 
 ## Verify and install
 
+Download the Windows beta installer and matching checksum from [GitHub Releases](https://github.com/restnaa/restnaa/releases).
+
 The generated `release` folder contains `Restnaa_0.1.4_x64-setup.exe`, its `.sha256`, `manifest.json`, and release/privacy/installation/limitation/audit documents.
 
 ```powershell
@@ -12,7 +14,7 @@ Get-Content .\Restnaa_0.1.4_x64-setup.exe.sha256
 Get-AuthenticodeSignature .\Restnaa_0.1.4_x64-setup.exe
 ```
 
-Compare the complete hash with the supplied checksum. The checksum detects a mismatch; it does not establish a trusted publisher. This candidate is unsigned. Public distribution/signing and SmartScreen reputation have not been approved or verified.
+Compare the complete hash with the supplied checksum. The checksum detects a mismatch; it does not establish a trusted publisher. This candidate is unsigned. It is distributed as a beta pre-release; signing and SmartScreen reputation remain unverified.
 
 Run the installer as your normal Windows user; it targets the current user, with a default location under `%LOCALAPPDATA%\Restnaa` unless a previous/custom location is retained. Launch **Restnaa** from the Start menu. Initial setup needs no account. Autostart is off until you opt in. Use **Finish setup** to save onboarding; **Save settings** applies schedule changes without restarting.
 
