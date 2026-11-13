@@ -1,3 +1,11 @@
+# Unreleased security and history improvements
+
+- Updated bundled SQLite, Tokio and rustix dependencies to address advisory findings; patched the lint tooling's minimatch dependency using a documented temporary override.
+- Pinned CI actions to commit hashes, disabled persisted checkout credentials, bounded job duration and configured weekly Dependabot proposals.
+- Added transactional database schema 3 indexes for history ranges, ordering and invalid-timestamp detection. Existing outcomes and scheduler settings are preserved. Back up the stopped profile before trying this source; older Beta 2 cannot open schema 3.
+
+These changes have not been published as a new release. The Beta 2 notes below describe the existing public installer.
+
 # Restnaa 0.1.4 Beta 2
 
 An early Windows 10/11 x64 pre-release for feedback and contributions. This is unsigned beta software; clean-machine and several native Windows acceptance checks remain pending.

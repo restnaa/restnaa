@@ -29,7 +29,7 @@ fn m1_upgrade_preserves_settings_and_history() {
         connection
             .query_row("PRAGMA user_version", [], |row| row.get::<_, u32>(0))
             .unwrap(),
-        2
+        3
     );
     assert_eq!(
         connection

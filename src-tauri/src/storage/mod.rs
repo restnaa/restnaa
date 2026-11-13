@@ -4,9 +4,10 @@ use rusqlite::{params, Connection, OptionalExtension};
 use std::{path::Path, time::Duration};
 use thiserror::Error;
 
-pub const SCHEMA_VERSION: u32 = 2;
+pub const SCHEMA_VERSION: u32 = 3;
 const INITIAL_MIGRATION: &str = include_str!("../../migrations/0001_initial.sql");
 const SCHEDULER_MIGRATION: &str = include_str!("../../migrations/0002_scheduler.sql");
+const HISTORY_INDEX_MIGRATION: &str = include_str!("../../migrations/0003_history_indexes.sql");
 
 #[derive(Debug, Error)]
 pub enum StorageError {
@@ -228,7 +229,11 @@ fn apply_initial_migration(connection: &mut Connection, sql: &str) -> Result<(),
             transaction.execute_batch(SCHEDULER_MIGRATION)?;
         }
         SCHEMA_VERSION => (),
+        2 => (),
         _ => return Err(StorageError::NewerSchema),
+    }
+    if version < 3 {
+        transaction.execute_batch(HISTORY_INDEX_MIGRATION)?;
     }
     transaction.pragma_update(None, "user_version", SCHEMA_VERSION)?;
     transaction.commit()?;

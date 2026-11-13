@@ -19,6 +19,8 @@ Open a focused issue for bugs with version, Windows version, reproduction steps 
 
 CI runs on Windows. It is not evidence of clean Windows 10/11, physical sleep/wake, DND, sign-in or screen-reader validation. Dependency downloads are build-time activities, not runtime feature authorization.
 
+Workflow actions are pinned to full commit hashes. Dependabot proposes weekly action, npm and Cargo updates for review; it does not merge or publish them automatically. `package.json` temporarily overrides minimatch versions 7 through 10 with patched 11.0.8 for lint tooling (GHSA-g3hv-75wg-m249). Keep lint and tests passing when updating this override, and remove it when upstream dependency ranges support patched versions.
+
 ## Branch workflow
 
 `main` is the stable integration branch. Keep changes on short-lived branches and open pull requests targeting `main`; there is no permanent `dev` branch. For example:

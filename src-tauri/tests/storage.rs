@@ -6,7 +6,7 @@ fn fresh_schema_is_empty_and_reopening_preserves_data() {
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("test.sqlite3");
     let storage = Storage::open(&path).unwrap();
-    assert_eq!(storage.schema_version().unwrap(), 2);
+    assert_eq!(storage.schema_version().unwrap(), 3);
     drop(storage);
     let connection = Connection::open(&path).unwrap();
     for table in ["settings", "reminder_state", "break_events"] {
@@ -65,6 +65,89 @@ fn categories_outcomes_and_duration_are_constrained() {
 }
 
 #[test]
+fn version_two_upgrade_preserves_rows_and_indexes_history_transactionally() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("version-two.sqlite3");
+    let connection = Connection::open(&path).unwrap();
+    connection
+        .execute_batch(include_str!("../migrations/0001_initial.sql"))
+        .unwrap();
+    connection
+        .execute_batch(include_str!("../migrations/0002_scheduler.sql"))
+        .unwrap();
+    connection.execute_batch("PRAGMA user_version=2; INSERT INTO settings VALUES('fixture','true','2026-10-21T09:00:00Z'); INSERT INTO break_events VALUES('old','eye','completed','2026-10-20T09:00:00Z','2026-10-20T09:00:20Z',20,'2026-10-20T09:00:20Z');").unwrap();
+    drop(connection);
+    let storage = Storage::open(&path).unwrap();
+    assert_eq!(storage.schema_version().unwrap(), 3);
+    drop(storage);
+    let connection = Connection::open(&path).unwrap();
+    assert_eq!(
+        connection
+            .query_row(
+                "SELECT value_json FROM settings WHERE key='fixture'",
+                [],
+                |row| row.get::<_, String>(0)
+            )
+            .unwrap(),
+        "true"
+    );
+    assert_eq!(
+        connection
+            .query_row(
+                "SELECT acted_at_utc FROM break_events WHERE id='old'",
+                [],
+                |row| row.get::<_, String>(0)
+            )
+            .unwrap(),
+        "2026-10-20T09:00:20Z"
+    );
+    assert_eq!(connection.query_row("SELECT count(*) FROM sqlite_master WHERE type='index' AND name IN ('break_events_acted_instant','break_events_invalid_acted')", [], |row| row.get::<_, u32>(0)).unwrap(), 2);
+}
+
+#[test]
+fn failed_history_index_upgrade_rolls_back_indexes_and_version() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("failed-index-upgrade.sqlite3");
+    let connection = Connection::open(&path).unwrap();
+    connection
+        .execute_batch(include_str!("../migrations/0001_initial.sql"))
+        .unwrap();
+    connection
+        .execute_batch(include_str!("../migrations/0002_scheduler.sql"))
+        .unwrap();
+    connection.execute_batch("PRAGMA user_version=2; CREATE INDEX break_events_invalid_acted ON break_events(category); INSERT INTO settings VALUES('preserve','true','2026-10-21T09:00:00Z');").unwrap();
+    drop(connection);
+    assert!(Storage::open(&path).is_err());
+    let connection = Connection::open(&path).unwrap();
+    assert_eq!(
+        connection
+            .query_row("PRAGMA user_version", [], |row| row.get::<_, u32>(0))
+            .unwrap(),
+        2
+    );
+    assert_eq!(
+        connection
+            .query_row(
+                "SELECT count(*) FROM sqlite_master WHERE name='break_events_acted_instant'",
+                [],
+                |row| row.get::<_, u32>(0)
+            )
+            .unwrap(),
+        0
+    );
+    assert_eq!(
+        connection
+            .query_row(
+                "SELECT value_json FROM settings WHERE key='preserve'",
+                [],
+                |row| row.get::<_, String>(0)
+            )
+            .unwrap(),
+        "true"
+    );
+}
+
+#[test]
 fn corrupt_database_is_not_replaced() {
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("corrupt.sqlite3");
@@ -80,7 +163,7 @@ fn newer_and_unrecognized_databases_are_not_migrated() {
     let path = dir.path().join("newer.sqlite3");
     let connection = Connection::open(&path).unwrap();
     connection
-        .execute_batch("CREATE TABLE unfamiliar(id TEXT); PRAGMA user_version=3;")
+        .execute_batch("CREATE TABLE unfamiliar(id TEXT); PRAGMA user_version=4;")
         .unwrap();
     drop(connection);
     let original = std::fs::read(&path).unwrap();

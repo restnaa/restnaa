@@ -31,6 +31,8 @@ Restart preserves earlier valid future deadlines, bounded by a fresh category in
 
 Migration 2 adds `scheduler_runtime` without replacing M1 tables or history. Typed settings live in `settings.scheduler_settings`; category deadlines/open IDs live in `reminder_state`; supplemental open-reminder, cooldown, and revision metadata live in `scheduler_runtime`. Outcomes remain in `break_events`. Invalid or inconsistent persisted data fails visibly without resetting history.
 
+Migration 3 adds an expression index on `julianday(acted_at_utc), id` and a partial index for invalid acted-at timestamps. History range/order queries and the global invalid-timestamp guard use indexes instead of scanning all stored history. Existing text timestamps, mixed offsets, submillisecond precision guards, local-day counts and the latest-100 limit retain their behavior. The migration is transactional and does not rewrite or delete outcomes. A schema-3 database requires this version or newer; older builds must not open it.
+
 Every transition is applied to a candidate engine, then settings, both deadlines, metadata, and new events commit in one transaction. Only committed changes replace live memory and produce events. A write failure stops that worker's scheduling until app restart, emits a visible error, and rejects subsequent commands. No database polling or silent data reset occurs.
 
 ## Typed API
