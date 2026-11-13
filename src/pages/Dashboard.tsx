@@ -28,7 +28,7 @@ export function Dashboard({ appInfo, navigate }: { appInfo: AppInfoState; naviga
   }
   return <>
     <PageHeader title="A little space to pause." subtitle="Rest your eyes. Move your body. Keep your focus." />
-    {scheduler.status === 'loading' && <p role="status">Connecting to the Rust schedulerâ€¦</p>}
+    {scheduler.status === 'loading' && <p role="status">Connecting to the Rust scheduler…</p>}
     {scheduler.status === 'error' && <p role="alert" className="error-message">{scheduler.message}</p>}
     {error && <p role="alert" className="error-message">{error}</p>}
     <div className="dashboard-grid">
@@ -42,7 +42,7 @@ export function Dashboard({ appInfo, navigate }: { appInfo: AppInfoState; naviga
         <PauseControls settings={scheduler.state.settings} paused={scheduler.state.status === 'paused'} />
       </>}
       <section className="surface today-card" aria-labelledby="today-title"><div className="card-heading"><IconBadge icon={ChartNoAxesColumnIncreasing} small /><h2 id="today-title">Today</h2><button type="button" className="icon-button" aria-label="View seven-day history" onClick={() => navigate('history')}><ChevronRight aria-hidden="true" /></button></div>
-        {history.status === 'loading' && <p role="status">Reading local historyâ€¦</p>}
+        {history.status === 'loading' && <p role="status">Reading local history…</p>}
         {history.status === 'error' && <p role="alert" className="error-message">{history.message}</p>}
         {history.status === 'ready' && <HistorySummary categories={history.history.categories} />}
         <button type="button" className="text-button refresh-today" onClick={refresh}><RefreshCw size={14} aria-hidden="true" />Refresh today</button>
