@@ -38,6 +38,55 @@ fn invalid_history_timestamps_fail_visibly_instead_of_reporting_incomplete_count
 }
 
 #[test]
+fn history_uses_indexes_with_large_old_history_and_preserves_invalid_detection() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("indexed-history.db");
+    let storage = Storage::open(&path).unwrap();
+    let connection = Connection::open(&path).unwrap();
+    connection.execute_batch("WITH RECURSIVE numbers(n) AS (VALUES(1) UNION ALL SELECT n+1 FROM numbers WHERE n<10000) INSERT INTO break_events SELECT 'old-'||n,'eye','completed','2020-01-01T10:00:00Z','2020-01-01T10:00:00Z',NULL,'2020-01-01T10:00:00Z' FROM numbers;").unwrap();
+    insert(&path, "movement", "skipped", "2026-10-21T11:00:00+01:00");
+    let plan = |sql: &str| -> Vec<String> {
+        connection
+            .prepare(sql)
+            .unwrap()
+            .query_map([], |row| row.get(3))
+            .unwrap()
+            .collect::<Result<_, _>>()
+            .unwrap()
+    };
+    let range_plan = plan("EXPLAIN QUERY PLAN SELECT id,category,outcome,triggered_at_utc,acted_at_utc,duration_seconds,created_at_utc FROM break_events WHERE julianday(acted_at_utc)>=julianday('2026-10-21T00:00:00Z') AND julianday(acted_at_utc)<=julianday('2026-10-21T12:00:00Z') ORDER BY julianday(acted_at_utc) DESC,id DESC");
+    assert!(
+        range_plan
+            .iter()
+            .any(|step| step.contains("SEARCH") && step.contains("break_events_acted_instant")),
+        "{range_plan:?}"
+    );
+    assert!(
+        !range_plan.iter().any(|step| step.contains("TEMP B-TREE")),
+        "{range_plan:?}"
+    );
+    let invalid_plan = plan("EXPLAIN QUERY PLAN SELECT EXISTS(SELECT 1 FROM break_events WHERE julianday(acted_at_utc) IS NULL)");
+    assert!(
+        invalid_plan
+            .iter()
+            .any(|step| step.contains("break_events_invalid_acted")
+                || (step.contains("SEARCH") && step.contains("break_events_acted_instant"))),
+        "{invalid_plan:?}"
+    );
+    let clock = FakeClock::at("2026-10-21T12:00:00Z");
+    assert_eq!(
+        storage
+            .history(HistoryRange::Today, &clock)
+            .unwrap()
+            .total_events,
+        1
+    );
+    // Even an invalid old record outside the displayed period must fail visibly.
+    insert(&path, "eye", "completed", "invalid-old-timestamp");
+    assert!(storage.history(HistoryRange::Today, &clock).is_err());
+}
+
+#[test]
 fn local_today_includes_midnight_and_offsets_but_not_future_or_previous_day() {
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("history.db");

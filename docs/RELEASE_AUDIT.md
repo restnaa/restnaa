@@ -1,5 +1,26 @@
 # Restnaa release audit
 
+## Unreleased security and history changes (2026-11-13)
+
+These local source changes are not in the published Beta 2 installer. `rusqlite` 0.41.1 bundles `libsqlite3-sys` 0.39.1, Tokio is locked to 1.54.1 and rustix to 1.1.6. The yanked non-Windows async-executor 1.14.0 entry was updated to 1.14.1. npm's targeted minimatch override resolves lint tooling to 11.0.8. The refreshed advisory database (1,509 advisories, last updated 2026-11-13) reports zero Rust vulnerabilities; five warnings remain for proc-macro-error, zbus_names, zvariant, zvariant_derive and glib. Windows-target inverse dependency checks find none of those packages. No Linux/macOS security qualification is claimed.
+
+Schema 3 adds history timestamp-expression and invalid-timestamp partial indexes transactionally. Tests verify a schema-2 upgrade preserves records, a failed index creation rolls back the first index and schema version, and a 10,000-old-record history query uses an index without a temporary sort. Existing mixed-offset, fractional timestamp, local-day/DST, corrupt-storage and distinct-outcome tests pass. No personal database was opened or migrated during these checks. Older Beta 2 requires restoration of a stopped pre-upgrade backup to roll back.
+
+Executed checks:
+
+- `npm ci --no-audit`: passed with the updated lockfile.
+- `npm audit --json --fetch-retries=0 --fetch-timeout=30000`: zero findings, including development dependencies.
+- `cargo-audit audit --file src-tauri/Cargo.lock --json`: refreshed the advisory database and reported zero vulnerability findings; platform/upstream warnings are retained rather than ignored. Earlier `--no-fetch` checks were also performed.
+- `npm run lint`, `npm run typecheck`, `npm test -- --run --maxWorkers=1`: passed; 63 frontend tests in 14 files.
+- `cargo test --manifest-path src-tauri/Cargo.toml --all-targets --locked`: 55 tests passed, including three new history/migration regressions.
+- `cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets --locked -- -D warnings` and `cargo fmt --manifest-path src-tauri/Cargo.toml -- --check`: passed.
+- `npm run build`: passed. `npm run test:ui -- --workers=2`: initial web-server startup exceeded 120 seconds while native compilation was running; a retry after an explicit build passed all 30 Edge tests at desktop/compact sizes, including accessibility checks. Browser plugin was unavailable, so the repository Playwright path was used. These tests use an IPC fixture, not the native scheduler.
+- Actionlint 1.7.7 passed both workflows. Actions are full-SHA pinned, checkout does not persist credentials and job timeouts are bounded. Dependabot configuration was reviewed for weekly Actions/npm/Cargo proposals; it has not run on GitHub. Auxiliary YAML parser checks could not run because js-yaml/PyYAML were absent; workflow syntax validation used Actionlint and text assertions verified pins/settings instead.
+- `powershell -NoProfile -File scripts/test-release.ps1`: passed. `git diff --check`: passed.
+- `npm run tauri build -- --bundles nsis -- --locked`: passed with the final lockfile after the async-executor patch; all 55 Rust tests also passed again. The local installer is `src-tauri/target/release/bundle/nsis/Restnaa_0.1.4_x64-setup.exe`, 4,118,572 bytes, SHA-256 `664fac14dae219abca49a7b22b087f067ec4a61c4d7b32a6c2cc59c849503dae`, Authenticode `NotSigned`. It was built from a dirty local worktree, has not been installed for acceptance testing, and was not exported over the existing `release/` candidate or uploaded to GitHub. Do not pair it with the old exported manifest/checksum.
+
+GitHub's public branch API still reports `main` unprotected. Protection remains a repository-admin setting and was not changed by these source edits. Installed Windows behavior, visible notifications, clean Windows 10/11 and idle resource usage were not retested; previous native evidence does not certify this candidate. No new release was published.
+
 Earlier internal plans and exact test evidence are preserved in Git history before 0.1.4. They do not certify the current identity. Current executed checks are recorded in the verification summary below.
 
 ## Current candidate

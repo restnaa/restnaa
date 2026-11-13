@@ -23,7 +23,7 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = ["tray-icon"] }
 serde = { version = "1", features = ["derive"] }
-rusqlite = { version = "0.37", features = ["bundled"] }
+rusqlite = { version = "0.41", features = ["bundled"] }
 thiserror = "2"
 chrono = { version = "0.4", features = ["serde"] }
 iana-time-zone = "0.1"
