@@ -14,7 +14,7 @@ Restnaa uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLi
 
 ## Download the Windows beta
 
-[Get the Windows installer (Beta 3)](https://github.com/restnaa/restnaa/releases/tag/v0.1.4-beta.3) and its matching `.sha256` checksum. This is an unsigned pre-release; review the [installation instructions](docs/INSTALLATION.md) and [known limitations](docs/KNOWN_LIMITATIONS.md) before installing. Quit the app and back up its data before upgrading; Beta 3 migrates storage to schema 4.
+[Get the Windows installer (Beta 4)](https://github.com/restnaa/restnaa/releases/tag/v0.1.4-beta.4) and its matching `.sha256` checksum. This is an unsigned pre-release; review the [installation instructions](docs/INSTALLATION.md) and [known limitations](docs/KNOWN_LIMITATIONS.md) before installing. Quit the app and back up its data before upgrading; Beta 4 retains schema 4 introduced in Beta 3.
 
 ## What it does
 
@@ -29,7 +29,7 @@ Windows DND detection is best effort. Use app Pause or Quiet mode for guaranteed
 
 ## Screenshots
 
-The current source uses a dark plum interface with pale text. These screenshots show the production frontend in Playwright/Edge with synthetic test data, not personal history or an installed Windows session. Counts, dates and scheduler states are demonstration fixtures. Captures show app content without native title bars. The published Beta 3 installer still uses the previous light theme.
+Beta 4 uses a dark plum interface with pale text. These screenshots show the production frontend in Playwright/Edge with synthetic test data, not personal history or an installed Windows session. Counts, dates and scheduler states are demonstration fixtures. Captures show app content without native title bars. Older Beta 3 downloads use the previous light theme.
 
 ### Dashboard
 
