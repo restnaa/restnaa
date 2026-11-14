@@ -14,6 +14,15 @@ function Get-ReleaseSignature([string]$LiteralPath) {
 function Get-ReleaseSignatureStatus([string]$LiteralPath) {
     return (Get-ReleaseSignature $LiteralPath).Status.ToString()
 }
+function Assert-UnsignedBetaSignature(
+    [string]$LiteralPath,
+    [scriptblock]$Inspect = {param($path) Get-ReleaseSignature $path}
+) {
+    $signature = & $Inspect $LiteralPath
+    if($null -eq $signature -or $signature.Status.ToString() -ne 'NotSigned') {
+        throw 'Unsigned beta publication requires explicit NotSigned status; unexpected or invalid signatures must be investigated.'
+    }
+}
 function Assert-ReleaseSignature(
     [string]$LiteralPath,
     [scriptblock]$Inspect = {param($path) Get-ReleaseSignature $path}

@@ -49,13 +49,14 @@ jobs:
           if($LASTEXITCODE -ne 0){throw 'Packaging failed.'}
           $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
           "directory=release/restnaa-$version" >> $env:GITHUB_OUTPUT
-      - name: Require trusted timestamped signatures before publication
+      - name: Verify explicitly unsigned beta artifacts
         shell: pwsh
         run: |
           . ./scripts/release-functions.ps1
           $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
-          Assert-ReleaseSignature -LiteralPath 'src-tauri/target/release/restnaa.exe'
-          Assert-ReleaseSignature -LiteralPath "release/restnaa-$version/Restnaa_$($version)_x64-setup.exe"
+          foreach($file in @('src-tauri/target/release/restnaa.exe', "release/restnaa-$version/Restnaa_$($version)_x64-setup.exe")) {
+            Assert-UnsignedBetaSignature -LiteralPath $file
+          }
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: windows-beta
@@ -86,8 +87,9 @@ jobs:
           assert manifest['sourceDirty'] is False, 'Release was built from a dirty worktree'
           assert manifest['releaseCandidate'] is True
           assert manifest['identifier'] == 'com.restnaa.desktop'
-          assert manifest['authenticodeStatus'] == 'Valid', 'Installer is not validly signed'
-          assert manifest['binaryAuthenticodeStatus'] == 'Valid', 'Application is not validly signed'
+          assert manifest['authenticodeStatus'] == 'NotSigned', 'Expected explicitly unsigned beta installer'
+          assert manifest['binaryAuthenticodeStatus'] == 'NotSigned', 'Expected explicitly unsigned beta application'
+          assert 'unsigned' in (root / 'RELEASE_NOTES.md').read_text(encoding='utf-8').lower()
           installer = root / manifest['installer']
           assert installer.name == f"Restnaa_{manifest['version']}_x64-setup.exe"
           assert installer.stat().st_size == manifest['bytes']
@@ -104,7 +106,7 @@ jobs:
           set -euo pipefail
           installer=$(python3 -c "import json; print(json.load(open('release/manifest.json'))['installer'])")
           gh release create "$GITHUB_REF_NAME" --verify-tag --draft --prerelease \
-            --title "Restnaa $GITHUB_REF_NAME - Windows beta" --notes-file release/RELEASE_NOTES.md \
+            --title "Restnaa $GITHUB_REF_NAME - Unsigned Windows beta" --notes-file release/RELEASE_NOTES.md \
             "release/$installer" "release/$installer.sha256" release/manifest.json \
             release/PRIVACY.md release/docs/INSTALLATION.md release/docs/KNOWN_LIMITATIONS.md \
             release/LICENSE release/THIRD_PARTY_NOTICES.md

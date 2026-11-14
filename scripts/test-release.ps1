@@ -21,6 +21,14 @@ try {
     catch { $reproduced=$true }
     if(-not $reproduced){throw 'Expected the shadowed security module to fail autoload.'}
     if((Get-ReleaseSignatureStatus $sample) -ne 'NotSigned'){throw 'Explicit host security module did not inspect the unsigned file.'}
+    Assert-UnsignedBetaSignature -LiteralPath $sample
+    foreach($status in @('Valid','HashMismatch','NotTrusted','UnknownError')) {
+        $rejected=$false
+        $inspect = {param($path) [pscustomobject]@{Status=$status}}.GetNewClosure()
+        try { Assert-UnsignedBetaSignature 'fixture' $inspect } catch { $rejected=$true }
+        if(-not $rejected){throw "Unsigned beta gate accepted unexpected $status."}
+    }
+    Write-Output 'PASS: unsigned beta gate accepts a real unsigned file and rejects unexpected signature states.'
     $missingRejected=$false
     try { Get-ReleaseSignatureStatus (Join-Path $testRoot 'missing.exe') | Out-Null } catch { $missingRejected=$true }
     if(-not $missingRejected){throw 'Missing signature input was silently accepted.'}

@@ -1,12 +1,18 @@
-# Unreleased security and history improvements
+# Restnaa 0.1.4 Beta 3 - unsigned Windows beta
 
 - Added optional water reminders, enabled by default every 60 minutes with an independent toggle/interval, native tray/notification paths and distinct local history outcomes. The interval is a software default, not a medical recommendation. Schema 4 preserves prior records and initializes the new deadline without replaying missed water reminders; back up the stopped profile before upgrading.
 
 - Updated bundled SQLite, Tokio and rustix dependencies to address advisory findings; patched the lint tooling's minimatch dependency using a documented temporary override.
 - Pinned CI actions to commit hashes, disabled persisted checkout credentials, bounded job duration and configured weekly Dependabot proposals.
-- Added transactional database schema 3 indexes for history ranges, ordering and invalid-timestamp detection. Existing outcomes and scheduler settings are preserved. Back up the stopped profile before trying this source; older Beta 2 cannot open schema 3.
+- Added transactional database schema 3 indexes for history ranges, ordering and invalid-timestamp detection. Existing outcomes and scheduler settings are preserved. Back up the stopped profile before upgrading; older Beta 2 cannot open schema 3 or 4.
 
-These changes have not been published as a new release. The Beta 2 notes below describe the existing public installer.
+This beta is intentionally **unsigned**. Signing has been deferred; Windows may show an unknown publisher or SmartScreen warning. The SHA-256 file detects mismatches and does not establish publisher trust. Do not disable Windows security protections.
+
+Quit Restnaa and back up `%APPDATA%\com.restnaa.desktop` before upgrading. Beta 3 upgrades storage to schema 4. Returning to Beta 2 requires restoring the stopped pre-upgrade backup; older executables cannot open the upgraded database.
+
+Local combined-source checks passed: 68 frontend unit tests, 40 browser UI tests, 63 Rust tests, lint, typecheck, formatting and Clippy. The maintainer reported the water candidate works. This is not clean-machine or full native acceptance. Installed banner/click/DND/denial, tray and native dismissal, sign-in startup, physical sleep/wake, screen-reader and prolonged-use checks remain pending. The hosted release workflow reruns automated checks and builds/verifies its own installer before publishing.
+
+The Beta 2 notes below are historical and describe the previous installer.
 
 # Restnaa 0.1.4 Beta 2
 

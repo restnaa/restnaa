@@ -6,7 +6,7 @@
 
 Contributing? Use a short-lived `feat/`, `fix/` or `docs/` branch and open a pull request to `main`. See the [branch workflow](CONTRIBUTING.md#branch-workflow) and contribution checks.
 
-A quiet, offline Windows desktop app that reminds you to rest your eyes and move.
+A quiet, offline Windows desktop app that reminds you to rest your eyes, move and take an optional water break.
 
 Restnaa uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLite. A single Rust scheduler owns reminders; React displays its typed state. No accounts, cloud sync, analytics, telemetry implementation or medical claims.
 
