@@ -22,14 +22,14 @@ fn m1_upgrade_preserves_settings_and_history() {
     drop(connection);
     let clock = FakeClock::at("2026-10-21T09:00:00Z");
     let (session, _) = Session::open(Storage::open(&path).unwrap(), clock).unwrap();
-    assert_eq!(session.snapshot().reminders.len(), 2);
+    assert_eq!(session.snapshot().reminders.len(), 3);
     drop(session);
     let connection = Connection::open(&path).unwrap();
     assert_eq!(
         connection
             .query_row("PRAGMA user_version", [], |row| row.get::<_, u32>(0))
             .unwrap(),
-        3
+        4
     );
     assert_eq!(
         connection
@@ -154,7 +154,7 @@ fn failed_event_insert_rolls_back_all_state_and_stops_session() {
     assert_eq!(
         Storage::open(&path)
             .unwrap()
-            .load_scheduler()
+            .load_scheduler(&clock)
             .unwrap()
             .unwrap(),
         before
@@ -180,7 +180,10 @@ fn inconsistent_open_ids_and_invalid_settings_fail_without_reset() {
     drop(session);
     let connection = Connection::open(&path).unwrap();
     connection.execute("UPDATE reminder_state SET open_reminder_id='00000000-0000-0000-0000-000000000001' WHERE category='eye'",[]).unwrap();
-    assert!(Storage::open(&path).unwrap().load_scheduler().is_err());
+    assert!(Storage::open(&path)
+        .unwrap()
+        .load_scheduler(&clock)
+        .is_err());
     assert!(Session::open(Storage::open(&path).unwrap(), clock.clone()).is_err());
     assert_eq!(
         connection

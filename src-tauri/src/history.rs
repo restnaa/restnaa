@@ -36,7 +36,7 @@ pub struct CategoryCounts {
     pub category: Category,
     pub counts: OutcomeCounts,
 }
-pub fn empty_counts() -> [CategoryCounts; 2] {
+pub fn empty_counts() -> [CategoryCounts; 3] {
     Category::ALL.map(|category| CategoryCounts {
         category,
         counts: OutcomeCounts::default(),
@@ -46,7 +46,7 @@ pub fn empty_counts() -> [CategoryCounts; 2] {
 #[serde(rename_all = "camelCase")]
 pub struct DaySummary {
     pub date: NaiveDate,
-    pub categories: [CategoryCounts; 2],
+    pub categories: [CategoryCounts; 3],
 }
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -55,7 +55,7 @@ pub struct History {
     pub from_date: NaiveDate,
     pub through_date: NaiveDate,
     pub as_of_utc: DateTime<Utc>,
-    pub categories: [CategoryCounts; 2],
+    pub categories: [CategoryCounts; 3],
     pub days: Vec<DaySummary>,
     pub recent: Vec<BreakEvent>,
     pub total_events: u64,

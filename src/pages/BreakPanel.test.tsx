@@ -24,6 +24,18 @@ test.each([['Done', completeBreak], ['Snooze 5 min', snoozeBreak], ['Skip', skip
   expect(hideBreakWindow).toHaveBeenCalledOnce()
 })
 
+test('water reminder uses gentle copy and Done never claims measured intake', async () => {
+  const state = schedulerState()
+  state.openReminder = { id, category: 'water', triggeredAtUtc: '2026-10-21T09:00:00Z', expiresAtUtc: '2026-10-21T09:05:00Z', startedAtUtc: null }
+  vi.mocked(useScheduler).mockReturnValue({ status: 'ready', state })
+  render(<BreakPanel />)
+  expect(screen.getByRole('heading', { name: 'A moment for water.' })).toBeInTheDocument()
+  expect(screen.getByText(/Consider a drink of water/)).toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: 'Done' }))
+  expect(completeBreak).toHaveBeenCalledExactlyOnceWith(id)
+  expect(hideBreakWindow).toHaveBeenCalledOnce()
+})
+
 test('Start does not complete; Esc and Close hide without recording outcomes', async () => {
   render(<BreakPanel />)
   const user = userEvent.setup()

@@ -6,6 +6,18 @@ import { getSettings, updateSettings } from '../lib/api'
 import { schedulerState } from '../test/schedulerFixtures'
 vi.mock('../lib/api', () => ({ getSettings: vi.fn(), updateSettings: vi.fn() }))
 beforeEach(() => { vi.mocked(getSettings).mockResolvedValue(schedulerState().settings); vi.mocked(updateSettings).mockResolvedValue(schedulerState()) })
+
+test('water defaults to 60 minutes and saves an independent interval and opt-out', async () => {
+  render(<ScheduleForm initial={schedulerState().settings} />)
+  const user = userEvent.setup()
+  expect(screen.getByRole('checkbox', { name: 'Water reminders' })).toBeChecked()
+  expect(screen.getByLabelText('Water interval (minutes)')).toHaveValue(60)
+  await user.clear(screen.getByLabelText('Water interval (minutes)'))
+  await user.type(screen.getByLabelText('Water interval (minutes)'), '90')
+  await user.click(screen.getByRole('checkbox', { name: 'Water reminders' }))
+  await user.click(screen.getByRole('button', { name: 'Save settings' }))
+  expect(updateSettings).toHaveBeenCalledWith(expect.objectContaining({ waterEnabled: false, waterIntervalMinutes: 90, eyeIntervalMinutes: 20, movementIntervalMinutes: 45 }))
+})
 test('saves real edits while preserving latest native and pause fields', async () => {
   const latest = { ...schedulerState().settings, notificationEnabled: false, pausedIndefinitely: true }
   vi.mocked(getSettings).mockResolvedValue(latest)

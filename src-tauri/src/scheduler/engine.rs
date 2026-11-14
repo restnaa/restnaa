@@ -15,7 +15,7 @@ const WATCH: u64 = 30;
 pub struct Engine {
     pub data: Persisted,
     last: Sample,
-    due_mono: [Wait; 2],
+    due_mono: [Wait; 3],
     open_expires_mono: Option<Wait>,
     started_mono: Option<Wait>,
     allowed_mono: Wait,
@@ -43,7 +43,7 @@ impl Engine {
         let mut engine = Self {
             data,
             last: sample.clone(),
-            due_mono: [Wait::ZERO; 2],
+            due_mono: [Wait::ZERO; 3],
             open_expires_mono: None,
             started_mono: None,
             allowed_mono: Wait::ZERO,
@@ -92,7 +92,10 @@ impl Engine {
             RunStatus::Paused
         } else if settings.quiet_mode {
             RunStatus::Quiet
-        } else if !settings.eye_enabled && !settings.movement_enabled {
+        } else if Category::ALL
+            .into_iter()
+            .all(|category| !category.enabled(settings))
+        {
             RunStatus::Disabled
         } else if !settings.within_work(now, clock) {
             RunStatus::OutsideWorkHours
@@ -420,16 +423,17 @@ impl Engine {
         self.started_mono = None;
         self.data.runtime.next_allowed_at_utc = Some(sample.utc + Duration::seconds(SPACING));
         self.allowed_mono = sample.monotonic + Wait::from_secs(SPACING as u64);
-        let other = Category::ALL[1 - category.index()];
-        if self.data.reminders[other.index()].next_due_at_utc
-            < sample.utc + Duration::seconds(SPACING)
-        {
-            self.schedule(
-                other,
-                sample.utc + Duration::seconds(SPACING),
-                sample,
-                clock,
-            );
+        for other in Category::ALL.into_iter().filter(|other| *other != category) {
+            if self.data.reminders[other.index()].next_due_at_utc
+                < sample.utc + Duration::seconds(SPACING)
+            {
+                self.schedule(
+                    other,
+                    sample.utc + Duration::seconds(SPACING),
+                    sample,
+                    clock,
+                );
+            }
         }
         effects.due.push(open);
     }

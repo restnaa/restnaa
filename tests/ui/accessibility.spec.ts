@@ -37,7 +37,7 @@ test('forced colors and zoom preserve keyboard controls and visible focus',async
   expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false)
 })
 
-test('break panel remains accessible for both categories',async({page})=>{
+test('break panel remains accessible for all three categories',async({page})=>{
   await installDesktopFixture(page);await page.goto('/')
   await page.getByRole('button',{name:'Take eye break'}).click();await page.goto('/?window=break')
   await expect(page.getByRole('heading',{name:'A moment for your eyes.'})).toBeVisible()
@@ -48,4 +48,9 @@ test('break panel remains accessible for both categories',async({page})=>{
   await expect(page.getByRole('heading',{name:'Make room to move.'})).toBeVisible()
   const movement=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze()
   expect(movement.violations.map(item=>item.id)).toEqual([])
+  await page.getByRole('button',{name:'Done',exact:true}).click()
+  await page.goto('/');await page.getByRole('button',{name:'Open water reminder',exact:true}).click();await page.goto('/?window=break')
+  await expect(page.getByRole('heading',{name:'A moment for water.'})).toBeVisible()
+  const water=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze()
+  expect(water.violations.map(item=>item.id)).toEqual([])
 })

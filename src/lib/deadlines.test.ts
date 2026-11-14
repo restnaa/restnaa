@@ -1,6 +1,16 @@
 import { deadlineLabel, showDeadline } from './deadlines'
 import { schedulerState } from '../test/schedulerFixtures'
 const now = Date.parse('2026-10-21T09:08:01Z')
+
+test('water eligibility is independent of movement preferences', () => {
+  const state = schedulerState()
+  state.settings.movementEnabled = false
+  expect(deadlineLabel(state, state.reminders[2], now)).not.toBe('Disabled')
+  expect(showDeadline(state, state.reminders[2])).toBe(true)
+  state.settings.waterEnabled = false
+  expect(deadlineLabel(state, state.reminders[2], now)).toBe('Disabled')
+  expect(showDeadline(state, state.reminders[2])).toBe(false)
+})
 test('relative text uses the actual independent Rust deadlines', () => {
   const state = schedulerState()
   expect(deadlineLabel(state, state.reminders[0], now)).toBe('Due in 12 min')

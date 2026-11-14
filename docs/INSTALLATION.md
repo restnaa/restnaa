@@ -35,6 +35,8 @@ Quit the old app before upgrading. Install over the same user installation. Back
 
 Unreleased source after Beta 2 upgrades the database to schema 3 to index history queries. It preserves records but is not compatible with the older Beta 2 executable. To return to Beta 2, quit the app and deliberately restore your pre-upgrade backup; do not edit the database schema version or delete history to bypass the check. These source changes are not included in the published Beta 2 installer.
 
+The subsequent water-reminder feature upgrades the database to schema 4 while retaining prior settings and history. Water defaults to enabled/every 60 minutes and can be disabled or adjusted in Settings. The interval is an app preference, not medical advice; follow any clinician fluid restrictions. Older schema-3 builds also require a pre-upgrade backup to roll back from schema 4. These changes remain unreleased.
+
 To uninstall, Quit and use Windows Settings → Apps → Installed apps → Restnaa → Uninstall. The generated uninstaller removes startup registration on a normal uninstall, preserves it during an update, and normally retains app data. Select **Delete app data** only if you intend to erase this app's local preferences and history. Clear history in the app deletes outcomes only; Windows notification history is separate.
 
 If storage fails, existing data is not automatically reset. Quit, preserve the data folder, and inspect file permissions/disk health or restore a known-good backup deliberately. Deleting an unfamiliar/corrupt database is not an automatic repair step. Clean Windows install/uninstall and actual sign-in behavior remain manual gates.

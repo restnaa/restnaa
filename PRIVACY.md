@@ -8,6 +8,8 @@ Restnaa stores a SQLite database in `%APPDATA%\com.restnaa.desktop\restnaa.sqlit
 
 An explicit Done is an action record, not proof of movement or eye rest. Restnaa offers no medical diagnosis or treatment and stores no medical conditions, names, email addresses, browsing history, webcam/screen recordings, key presses or active-app/window activity. It has no login, server, analytics, telemetry, cloud sync, remote updater or automatic beta-feedback transmission.
 
+Unreleased water reminders use the same local preferences, deadlines and outcome records. Done does not verify drinking. No drink amounts, fluid targets or hydration measurements are collected, and no medical profile is requested.
+
 ## Operating-system integrations
 
 Windows receives local notification text and identifiers so it can display reminders. Notification history may remain in Windows after app history is cleared; Windows controls banners, lock-screen visibility, retention and Do not disturb. Restnaa does not override those controls. The tray remains available when banners are suppressed.

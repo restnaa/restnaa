@@ -40,7 +40,7 @@ export async function installDesktopFixture(page: Page, onboardingCompleted = tr
         if(command==='pause_reminders'){const request=args.request as {kind:string;minutes?:number};state.status='paused';state.settings.pausedIndefinitely=request.kind==='manual';state.settings.pausedUntilUtc=request.kind==='manual'?null:'2026-10-22T00:00:00Z';publish();return structuredClone(state)}
         if(command==='resume_reminders'){state.status='active';state.settings.pausedIndefinitely=false;state.settings.pausedUntilUtc=null;publish();return structuredClone(state)}
         if(command==='start_break'){
-          state.openReminder={id:'00000000-0000-0000-0000-000000000001',category:args.category as 'eye'|'movement',triggeredAtUtc:'2026-10-21T12:00:00Z',expiresAtUtc:'2026-10-21T12:05:00Z',startedAtUtc:'2026-10-21T12:00:00Z'};publish();return structuredClone(state)
+          state.openReminder={id:'00000000-0000-0000-0000-000000000001',category:args.category as 'eye'|'movement'|'water',triggeredAtUtc:'2026-10-21T12:00:00Z',expiresAtUtc:'2026-10-21T12:05:00Z',startedAtUtc:'2026-10-21T12:00:00Z'};publish();return structuredClone(state)
         }
         if(['complete_break','skip_break','snooze_break'].includes(command)){state.openReminder=null;publish();return structuredClone(state)}
         if(['open_current_break','hide_break_window','quit_app'].includes(command))return

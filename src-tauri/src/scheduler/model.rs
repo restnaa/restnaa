@@ -8,32 +8,37 @@ use uuid::Uuid;
 pub enum Category {
     Eye,
     Movement,
+    Water,
 }
 
 impl Category {
-    pub const ALL: [Self; 2] = [Self::Eye, Self::Movement];
+    pub const ALL: [Self; 3] = [Self::Eye, Self::Movement, Self::Water];
     pub fn index(self) -> usize {
         match self {
             Self::Eye => 0,
             Self::Movement => 1,
+            Self::Water => 2,
         }
     }
     pub fn name(self) -> &'static str {
         match self {
             Self::Eye => "eye",
             Self::Movement => "movement",
+            Self::Water => "water",
         }
     }
     pub fn enabled(self, settings: &Settings) -> bool {
         match self {
             Self::Eye => settings.eye_enabled,
             Self::Movement => settings.movement_enabled,
+            Self::Water => settings.water_enabled,
         }
     }
     pub fn interval(self, settings: &Settings) -> i64 {
         i64::from(match self {
             Self::Eye => settings.eye_interval_minutes,
             Self::Movement => settings.movement_interval_minutes,
+            Self::Water => settings.water_interval_minutes,
         })
     }
 }
@@ -98,7 +103,7 @@ pub struct RuntimeMeta {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Persisted {
     pub settings: Settings,
-    pub reminders: [ReminderState; 2],
+    pub reminders: [ReminderState; 3],
     pub runtime: RuntimeMeta,
 }
 
@@ -168,7 +173,7 @@ pub struct DashboardState {
     pub revision: u64,
     pub status: RunStatus,
     pub settings: Settings,
-    pub reminders: [ReminderView; 2],
+    pub reminders: [ReminderView; 3],
     pub open_reminder: Option<OpenReminder>,
 }
 

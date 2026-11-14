@@ -11,12 +11,12 @@ Restnaa is a release candidate. Keep installed Windows and clean-machine accepta
 - Windows-first desktop application targeting Windows 10 and 11, built with Tauri 2. Frontend: React, TypeScript, Vite, and Tailwind CSS. Rust owns scheduling, persistence, validation, and system integrations.
 - Offline-only runtime. No server, login, accounts, network calls, analytics, telemetry, cloud sync, remote update service, payments, AI, employee monitoring, or social features in the MVP. Build/release dependency downloads and installer prerequisites are distinct from application runtime behavior.
 - Store structured data in local SQLite in the application data directory. No direct SQLite access from frontend code. Store no names, email addresses, medical conditions, browsing history, screenshots, active application names, window titles, or key presses.
-- Offer gentle eye-rest and movement reminders. Make no medical, diagnostic, treatment, or exercise-verification claims. Completion records explicit user actions only. Avoid health scores, guilt-inducing streaks, forced locks, full-screen overlays, and forced focus stealing.
+- Offer gentle eye-rest, movement and water reminders. Make no medical, diagnostic, treatment, exercise-verification or measured-intake claims. Completion records explicit user actions only. Avoid health scores, guilt-inducing streaks, forced locks, full-screen overlays, and forced focus stealing.
 
 ## Architecture and scheduling contract
 
 - A single Rust scheduler owns state, deadlines, transitions, and event emission. React renders typed backend state and invokes typed commands; JavaScript timers must never become a reminder source of truth.
-- Keep independent eye and movement state. Use monotonic elapsed time at runtime and persisted UTC timestamps for recovery; working hours use the system local timezone.
+- Keep independent eye, movement and water state. Use monotonic elapsed time at runtime and persisted UTC timestamps for recovery; working hours use the system local timezone.
 - Preserve reminder eligibility rules: category enabled, inside working schedule, not paused, no open reminder for that category, and not suppressed by app quiet mode.
 - Done and Skip schedule from action time plus the category interval; Snooze schedules five minutes later within a valid work window. Unanswered reminders time out after an initial five minutes and reschedule from dismissal. Outcomes remain distinct.
 - Recompute after restart, sleep/wake, time/timezone changes, settings changes, and pause/resume. Never replay missed reminders. Recovery may emit at most one currently eligible reminder for the most overdue category. Prevent duplicates and overlapping break windows; sequencing categories at least two minutes apart is an allowed MVP policy.
@@ -40,3 +40,7 @@ Run relevant checks after changes. Report exact commands, results, failures, and
 ## Authorized automatic break windows (2026-10-22)
 
 The user explicitly authorized automatic break windows, default On, and explicitly accepted Restnaa pause/work-hours/Quiet mode plus best-effort Windows DND handling. Preserve the default-On setting and persistent opt-out. Do not claim complete DND detection; known suppressed/unknown attention states must not trigger automatic windows. No OS preference changes, forced keyboard focus or always-on-top behavior. Existing explicit window actions may focus as before.
+
+## Water reminders (2026-11-14)
+
+Water is a third category in the same scheduler, with a 60-minute software default, enabled by default and an independent opt-out. Validate intervals of 30–240 minutes in Rust. These are reminder preferences, not medically prescribed intervals. Use gentle optional wording and respect user needs and clinician fluid advice; do not add intake amounts, fluid goals, medical profiles or hydration scores. Preserve all suppression, recovery, distinct-outcome and non-overlap policies across all three categories. Upgrades initialize only the new deadline from the injected clock, without resetting history or manufacturing overdue water reminders.

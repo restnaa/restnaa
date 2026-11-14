@@ -1,6 +1,6 @@
-import { MovementIcon } from '../components/MovementIcon'
+import { categories } from '../lib/categories'
 import { useState } from 'react'
-import { ChartNoAxesColumnIncreasing, Eye, ChevronRight, RefreshCw } from 'lucide-react'
+import { ChartNoAxesColumnIncreasing, ChevronRight, RefreshCw } from 'lucide-react'
 import type { AppInfoState, Category, Page } from '../lib/types'
 import { DeviceStatus } from '../components/DeviceStatus'
 import { SchedulerStatus } from '../components/SchedulerStatus'
@@ -11,7 +11,7 @@ import { PageHeader } from '../components/PageHeader'
 import { useScheduler } from '../hooks/useScheduler'
 import { useHistory } from '../hooks/useHistory'
 import { useDisplayTime } from '../hooks/useDisplayTime'
-import { deadlineLabel } from '../lib/deadlines'
+import { deadlineLabel, reminderEnabled } from '../lib/deadlines'
 import { startBreak, openCurrentBreak } from '../lib/api'
 export function Dashboard({ appInfo, navigate }: { appInfo: AppInfoState; navigate: (page: Page) => void }) {
   const scheduler = useScheduler()
@@ -34,9 +34,9 @@ export function Dashboard({ appInfo, navigate }: { appInfo: AppInfoState; naviga
     <div className="dashboard-grid">
       {scheduler.status === 'ready' && <>
         {scheduler.state.reminders.map(reminder => <section className={`surface break-card ${reminder.category}`} key={reminder.category}>
-          <div className="break-card-top"><IconBadge icon={reminder.category === 'eye' ? Eye : MovementIcon} violet={reminder.category === 'movement'} /><div><h2>{reminder.category === 'eye' ? 'Eye break' : 'Movement break'}</h2><span className="status-pill">{deadlineLabel(scheduler.state, reminder, now)}</span></div></div>
-          <p>{reminder.category === 'eye' ? 'Look at something far away for 20 seconds.' : 'Stand, stretch gently, or take a short walk.'}</p>
-          <button type="button" className={`primary-button${reminder.category === 'movement' ? ' violet-button' : ''}`} disabled={busy || scheduler.state.status !== 'active' || !!scheduler.state.openReminder || !(reminder.category === 'eye' ? scheduler.state.settings.eyeEnabled : scheduler.state.settings.movementEnabled)} onClick={() => void takeBreak(reminder.category)}>Take {reminder.category} break</button>
+          <div className="break-card-top"><IconBadge icon={categories[reminder.category].icon} violet={reminder.category === 'movement'} /><div><h2>{categories[reminder.category].title}</h2><span className="status-pill">{deadlineLabel(scheduler.state, reminder, now)}</span></div></div>
+          <p>{categories[reminder.category].description}</p>
+          <button type="button" className={`primary-button${reminder.category === 'movement' ? ' violet-button' : ''}`} disabled={busy || scheduler.state.status !== 'active' || !!scheduler.state.openReminder || !reminderEnabled(scheduler.state, reminder)} onClick={() => void takeBreak(reminder.category)}>{categories[reminder.category].action}</button>
         </section>)}
         <SchedulerStatus state={scheduler.state} />
         <PauseControls settings={scheduler.state.settings} paused={scheduler.state.status === 'paused'} />

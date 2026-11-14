@@ -11,6 +11,10 @@ pub struct Settings {
     pub movement_enabled: bool,
     pub eye_interval_minutes: u32,
     pub movement_interval_minutes: u32,
+    #[serde(default = "notifications_default")]
+    pub water_enabled: bool,
+    #[serde(default = "water_interval_default")]
+    pub water_interval_minutes: u32,
     /// Monday = 0, Sunday = 6.
     pub work_days: Vec<u32>,
     pub work_start_local: NaiveTime,
@@ -32,6 +36,10 @@ fn notifications_default() -> bool {
     true
 }
 
+fn water_interval_default() -> u32 {
+    60
+}
+
 impl Default for Settings {
     fn default() -> Self {
         Self {
@@ -39,6 +47,8 @@ impl Default for Settings {
             movement_enabled: true,
             eye_interval_minutes: 20,
             movement_interval_minutes: 45,
+            water_enabled: true,
+            water_interval_minutes: water_interval_default(),
             work_days: vec![0, 1, 2, 3, 4],
             work_start_local: NaiveTime::from_hms_opt(9, 0, 0).unwrap(),
             work_end_local: NaiveTime::from_hms_opt(18, 0, 0).unwrap(),
@@ -55,6 +65,9 @@ impl Default for Settings {
 
 impl Settings {
     pub fn validate(&self) -> Result<(), String> {
+        if !(30..=240).contains(&self.water_interval_minutes) {
+            return Err("Water reminder interval must be 30–240 minutes. This is an app preference, not a medical recommendation.".into());
+        }
         if !(10..=120).contains(&self.eye_interval_minutes)
             || !(15..=180).contains(&self.movement_interval_minutes)
         {

@@ -4,10 +4,11 @@ use rusqlite::{params, Connection, OptionalExtension};
 use std::{path::Path, time::Duration};
 use thiserror::Error;
 
-pub const SCHEMA_VERSION: u32 = 3;
+pub const SCHEMA_VERSION: u32 = 4;
 const INITIAL_MIGRATION: &str = include_str!("../../migrations/0001_initial.sql");
 const SCHEDULER_MIGRATION: &str = include_str!("../../migrations/0002_scheduler.sql");
 const HISTORY_INDEX_MIGRATION: &str = include_str!("../../migrations/0003_history_indexes.sql");
+const WATER_MIGRATION: &str = include_str!("../../migrations/0004_water.sql");
 
 #[derive(Debug, Error)]
 pub enum StorageError {
@@ -91,6 +92,7 @@ impl Storage {
             let category = match row.get::<_, String>(1)?.as_str() {
                 "eye" => Category::Eye,
                 "movement" => Category::Movement,
+                "water" => Category::Water,
                 _ => return Err(StorageError::InvalidData),
             };
             let outcome = match row.get::<_, String>(2)?.as_str() {
@@ -132,7 +134,10 @@ impl Storage {
         Ok(())
     }
 
-    pub fn load_scheduler(&self) -> Result<Option<Persisted>, StorageError> {
+    pub fn load_scheduler(
+        &self,
+        clock: &dyn crate::clock::Clock,
+    ) -> Result<Option<Persisted>, StorageError> {
         let json: Option<String> = self
             .connection
             .query_row(
@@ -151,6 +156,7 @@ impl Storage {
         };
         let settings: Settings =
             serde_json::from_str(&json).map_err(|_| StorageError::InvalidData)?;
+        settings.validate().map_err(|_| StorageError::InvalidData)?;
         let json: String = self.connection.query_row(
             "SELECT value_json FROM scheduler_runtime WHERE id=1",
             [],
@@ -158,13 +164,40 @@ impl Storage {
         )?;
         let runtime: RuntimeMeta =
             serde_json::from_str(&json).map_err(|_| StorageError::InvalidData)?;
+        let water_pending = self
+            .connection
+            .query_row(
+                "SELECT value_json FROM settings WHERE key='water_upgrade_pending'",
+                [],
+                |row| row.get::<_, String>(0),
+            )
+            .optional()?;
+        if water_pending.as_ref().is_some_and(|value| value != "true") {
+            return Err(StorageError::InvalidData);
+        }
         let mut reminders = Vec::new();
         for category in Category::ALL {
-            let (due, open): (String, Option<String>) = self.connection.query_row(
+            let saved: Option<(String, Option<String>)> = self.connection.query_row(
                 "SELECT next_due_at_utc, open_reminder_id FROM reminder_state WHERE category=?1",
                 [category.name()],
                 |row| Ok((row.get(0)?, row.get(1)?)),
-            )?;
+            ).optional()?;
+            if category == Category::Water && water_pending.is_some() {
+                if saved.is_some() {
+                    return Err(StorageError::InvalidData);
+                }
+                reminders.push(ReminderState {
+                    category,
+                    next_due_at_utc: settings.next_work(
+                        clock.sample().utc
+                            + chrono::Duration::minutes(category.interval(&settings)),
+                        clock,
+                    ),
+                    open_reminder_id: None,
+                });
+                continue;
+            }
+            let (due, open) = saved.ok_or(StorageError::InvalidData)?;
             reminders.push(ReminderState {
                 category,
                 next_due_at_utc: DateTime::parse_from_rfc3339(&due)
@@ -199,6 +232,7 @@ impl Storage {
         let runtime =
             serde_json::to_string(&data.runtime).map_err(|_| StorageError::InvalidData)?;
         let transaction = self.connection.transaction()?;
+        transaction.execute("DELETE FROM settings WHERE key='water_upgrade_pending'", [])?;
         transaction.execute("INSERT INTO settings(key,value_json,updated_at_utc) VALUES('scheduler_settings',?1,?2) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json,updated_at_utc=excluded.updated_at_utc", params![settings,now.to_rfc3339()])?;
         for state in &data.reminders {
             transaction.execute("INSERT INTO reminder_state(category,next_due_at_utc,open_reminder_id,updated_at_utc) VALUES(?1,?2,?3,?4) ON CONFLICT(category) DO UPDATE SET next_due_at_utc=excluded.next_due_at_utc,open_reminder_id=excluded.open_reminder_id,updated_at_utc=excluded.updated_at_utc", params![state.category.name(),state.next_due_at_utc.to_rfc3339(),state.open_reminder_id.map(|id| id.to_string()),now.to_rfc3339()])?;
@@ -229,11 +263,14 @@ fn apply_initial_migration(connection: &mut Connection, sql: &str) -> Result<(),
             transaction.execute_batch(SCHEDULER_MIGRATION)?;
         }
         SCHEMA_VERSION => (),
-        2 => (),
+        2 | 3 => (),
         _ => return Err(StorageError::NewerSchema),
     }
     if version < 3 {
         transaction.execute_batch(HISTORY_INDEX_MIGRATION)?;
+    }
+    if version < 4 {
+        transaction.execute_batch(WATER_MIGRATION)?;
     }
     transaction.pragma_update(None, "user_version", SCHEMA_VERSION)?;
     transaction.commit()?;

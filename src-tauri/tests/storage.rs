@@ -6,7 +6,7 @@ fn fresh_schema_is_empty_and_reopening_preserves_data() {
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("test.sqlite3");
     let storage = Storage::open(&path).unwrap();
-    assert_eq!(storage.schema_version().unwrap(), 3);
+    assert_eq!(storage.schema_version().unwrap(), 4);
     drop(storage);
     let connection = Connection::open(&path).unwrap();
     for table in ["settings", "reminder_state", "break_events"] {
@@ -78,7 +78,7 @@ fn version_two_upgrade_preserves_rows_and_indexes_history_transactionally() {
     connection.execute_batch("PRAGMA user_version=2; INSERT INTO settings VALUES('fixture','true','2026-10-21T09:00:00Z'); INSERT INTO break_events VALUES('old','eye','completed','2026-10-20T09:00:00Z','2026-10-20T09:00:20Z',20,'2026-10-20T09:00:20Z');").unwrap();
     drop(connection);
     let storage = Storage::open(&path).unwrap();
-    assert_eq!(storage.schema_version().unwrap(), 3);
+    assert_eq!(storage.schema_version().unwrap(), 4);
     drop(storage);
     let connection = Connection::open(&path).unwrap();
     assert_eq!(
@@ -163,7 +163,7 @@ fn newer_and_unrecognized_databases_are_not_migrated() {
     let path = dir.path().join("newer.sqlite3");
     let connection = Connection::open(&path).unwrap();
     connection
-        .execute_batch("CREATE TABLE unfamiliar(id TEXT); PRAGMA user_version=4;")
+        .execute_batch("CREATE TABLE unfamiliar(id TEXT); PRAGMA user_version=5;")
         .unwrap();
     drop(connection);
     let original = std::fs::read(&path).unwrap();

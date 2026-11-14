@@ -1,7 +1,7 @@
 import { MovementIcon } from './MovementIcon'
 import { useState, type FormEvent } from 'react'
 import { getSettings, updateSettings } from '../lib/api'
-import { CalendarDays, Eye } from 'lucide-react'
+import { CalendarDays, Droplet, Eye } from 'lucide-react'
 import { IconBadge } from './IconBadge'
 import type { SchedulerSettings } from '../lib/types'
 
@@ -22,6 +22,7 @@ export function ScheduleForm({ initial, onboarding = false, onSaved }: { initial
     try {
       const latest = await getSettings()
       await updateSettings({ ...latest, eyeEnabled: draft.eyeEnabled, movementEnabled: draft.movementEnabled,
+        waterEnabled: draft.waterEnabled, waterIntervalMinutes: draft.waterIntervalMinutes,
         eyeIntervalMinutes: draft.eyeIntervalMinutes, movementIntervalMinutes: draft.movementIntervalMinutes,
         showBreakWindow: draft.showBreakWindow, workDays: draft.workDays, workStartLocal: draft.workStartLocal, workEndLocal: draft.workEndLocal, quietMode: draft.quietMode,
         onboardingCompleted: onboarding || latest.onboardingCompleted })
@@ -34,9 +35,11 @@ export function ScheduleForm({ initial, onboarding = false, onSaved }: { initial
     <div className="settings-top-grid">
       <fieldset className="surface reminder-settings" disabled={busy}>
         <legend className="sr-only">Reminders</legend>
-        <div className="card-heading"><IconBadge icon={Eye} /><div><h2>Reminders</h2><p>Gentle reminders to rest and move.</p></div></div>
+        <div className="card-heading"><IconBadge icon={Eye} /><div><h2>Reminders</h2><p>Gentle reminders to rest, move and drink.</p></div></div>
         <div className="reminder-setting-row"><IconBadge icon={Eye} small /><label className="preference-toggle"><span>Eye reminders</span><input className="switch" type="checkbox" checked={draft.eyeEnabled} onChange={event => change({ eyeEnabled: event.target.checked })} /></label><label className="interval-field"><span aria-hidden="true">Every</span><span className="sr-only">Eye interval (minutes)</span><input aria-label="Eye interval (minutes)" type="number" required min={10} max={120} step={1} value={Number.isNaN(draft.eyeIntervalMinutes) ? '' : draft.eyeIntervalMinutes} onChange={event => change({ eyeIntervalMinutes: event.target.valueAsNumber })} /><span aria-hidden="true">min</span></label></div>
         <div className="reminder-setting-row"><IconBadge icon={MovementIcon} small violet /><label className="preference-toggle"><span>Movement reminders</span><input className="switch" type="checkbox" checked={draft.movementEnabled} onChange={event => change({ movementEnabled: event.target.checked })} /></label><label className="interval-field"><span aria-hidden="true">Every</span><span className="sr-only">Movement interval (minutes)</span><input aria-label="Movement interval (minutes)" type="number" required min={15} max={180} step={1} value={Number.isNaN(draft.movementIntervalMinutes) ? '' : draft.movementIntervalMinutes} onChange={event => change({ movementIntervalMinutes: event.target.valueAsNumber })} /><span aria-hidden="true">min</span></label></div>
+        <div className="reminder-setting-row"><IconBadge icon={Droplet} small /><label className="preference-toggle"><span>Water reminders</span><input className="switch" type="checkbox" checked={draft.waterEnabled} onChange={event => change({ waterEnabled: event.target.checked })} /></label><label className="interval-field"><span aria-hidden="true">Every</span><span className="sr-only">Water interval (minutes)</span><input aria-label="Water interval (minutes)" type="number" required min={30} max={240} step={1} value={Number.isNaN(draft.waterIntervalMinutes) ? '' : draft.waterIntervalMinutes} onChange={event => change({ waterIntervalMinutes: event.target.valueAsNumber })} /><span aria-hidden="true">min</span></label></div>
+        <p className="field-help">Water: 30–240 minutes. The 60-minute default is a reminder preference, not medical advice. Drink according to your needs and follow any clinician fluid restrictions.</p>
         <label className="preference-toggle automatic-window-toggle"><input className="switch" type="checkbox" checked={draft.showBreakWindow} onChange={event => change({ showBreakWindow: event.target.checked })} /><span>Show break window when a reminder is due</span></label><p className="field-help">Requires notifications enabled. Opens without taking keyboard focus. Windows DND is best effort; use Restnaa Quiet mode or Pause for guaranteed quiet.</p>
         <p className="field-help interval-help">Eye: 10–120 min · Movement: 15–180 min</p>
       </fieldset>

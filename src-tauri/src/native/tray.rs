@@ -22,6 +22,7 @@ pub fn setup(app: &AppHandle) -> Result<(), String> {
         let movement =
             MenuItem::with_id(app, "movement", "Take movement break", true, None::<&str>)?;
         let pause30 = MenuItem::with_id(app, "pause30", "Pause 30 minutes", true, None::<&str>)?;
+        let water = MenuItem::with_id(app, "water", "Open water reminder", true, None::<&str>)?;
         let pause60 = MenuItem::with_id(app, "pause60", "Pause 1 hour", true, None::<&str>)?;
         let pause120 = MenuItem::with_id(app, "pause120", "Pause 2 hours", true, None::<&str>)?;
         let resume = MenuItem::with_id(app, "resume", "Resume", false, None::<&str>)?;
@@ -31,8 +32,8 @@ pub fn setup(app: &AppHandle) -> Result<(), String> {
         let menu = Menu::with_items(
             app,
             &[
-                &status, &show, &open, &eye, &movement, &separator, &pause30, &pause60, &pause120,
-                &resume, &settings, &quit,
+                &status, &show, &open, &eye, &movement, &water, &separator, &pause30, &pause60,
+                &pause120, &resume, &settings, &quit,
             ],
         )?;
         let mut builder = TrayIconBuilder::with_id("restnaa")
@@ -97,6 +98,7 @@ pub fn dispatch(app: &AppHandle, id: &str) {
             let action = match id.as_str() {
                 "eye" => Action::Start(Category::Eye),
                 "movement" => Action::Start(Category::Movement),
+                "water" => Action::Start(Category::Water),
                 "pause30" => Action::Pause(PauseRequest::Minutes { minutes: 30 }),
                 "pause60" => Action::Pause(PauseRequest::Minutes { minutes: 60 }),
                 "pause120" => Action::Pause(PauseRequest::Minutes { minutes: 120 }),
@@ -106,7 +108,7 @@ pub fn dispatch(app: &AppHandle, id: &str) {
             super::scheduler(&app)
                 .and_then(|scheduler| scheduler.request(action))
                 .and_then(|_| {
-                    if id == "eye" || id == "movement" {
+                    if id == "eye" || id == "movement" || id == "water" {
                         super::windows::show_break(&app)
                     } else {
                         Ok(())

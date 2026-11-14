@@ -1,8 +1,8 @@
-import { MovementIcon } from './MovementIcon'
+import { categories } from '../lib/categories'
 import { useScheduler } from '../hooks/useScheduler'
 import { openCurrentBreak } from '../lib/api'
 import { useState } from 'react'
-import { CalendarDays, Eye } from 'lucide-react'
+import { CalendarDays } from 'lucide-react'
 import { IconBadge } from './IconBadge'
 import { useDisplayTime } from '../hooks/useDisplayTime'
 import { deadlineLabel, showDeadline } from '../lib/deadlines'
@@ -14,7 +14,7 @@ function ScheduleContent({ state }: { state: DashboardState }) {
   return <>
     <p role="status" className="schedule-state">{schedulerLabels[state.status]}</p>
     <dl className="schedule-list">{state.reminders.map(reminder => <div key={reminder.category}>
-      <dt><IconBadge icon={reminder.category === 'eye' ? Eye : MovementIcon} small violet={reminder.category === 'movement'} />Next {reminder.category} break</dt>
+      <dt><IconBadge icon={categories[reminder.category].icon} small violet={reminder.category === 'movement'} />{reminder.category === 'water' ? 'Next water reminder' : `Next ${reminder.category} break`}</dt>
       <dd>{showDeadline(state, reminder) && <time dateTime={reminder.nextDueAtUtc} title={new Date(reminder.nextDueAtUtc).toLocaleString()}>{new Date(reminder.nextDueAtUtc).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</time>}<span>{deadlineLabel(state, reminder, now)}</span></dd>
     </div>)}</dl>
     {state.openReminder && <button type="button" className="secondary-button full-width" onClick={() => { setError(null); void openCurrentBreak().catch(() => setError('Could not open this break. It may have expired; check the tray.')) }}>Open current break</button>}

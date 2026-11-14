@@ -12,16 +12,17 @@ test.each(['paused', 'quiet'] as const)('suppressed %s schedule does not present
   vi.mocked(useScheduler).mockReturnValue({ status: 'ready', state })
   const { container } = render(<SchedulerStatus />)
   expect(container.querySelector('time')).toBeNull()
-  expect(screen.getAllByText(status === 'paused' ? 'After you resume' : 'After quiet mode ends')).toHaveLength(2)
+  expect(screen.getAllByText(status === 'paused' ? 'After you resume' : 'After quiet mode ends')).toHaveLength(3)
 })
 
 test('open and disabled categories do not show invented countdowns', () => {
   const state = schedulerState()
   state.reminders[0].openReminderId = 'id'
   state.settings.movementEnabled = false
+  state.settings.waterEnabled = false
   vi.mocked(useScheduler).mockReturnValue({ status: 'ready', state })
   const { container } = render(<SchedulerStatus />)
   expect(screen.getByText('Reminder open')).toBeInTheDocument()
-  expect(screen.getByText('Disabled')).toBeInTheDocument()
+  expect(screen.getAllByText('Disabled')).toHaveLength(2)
   expect(container.querySelector('time')).toBeNull()
 })

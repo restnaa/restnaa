@@ -31,15 +31,15 @@ export function BreakPanel() {
   }, [busy])
   return <main className="break-panel" aria-busy={busy}>
     <p className="break-brand"><img className="brand-mark" src="/brand/restnaa-mark.png" alt="" width="43" height="43" />Restnaa</p>
-    <h1>{current ? current.category === 'eye' ? 'A moment for your eyes.' : 'Make room to move.' : 'No break waiting.'}</h1>
+    <h1>{current ? current.category === 'eye' ? 'A moment for your eyes.' : current.category === 'water' ? 'A moment for water.' : 'Make room to move.' : 'No break waiting.'}</h1>
     {view.status === 'loading' && <p role="status">Checking your current breakâ€¦</p>}
     {view.status === 'error' && <p role="alert" className="error-message">{view.message}</p>}
     {error && <p role="alert" className="error-message">{error}</p>}
     {current && <>
-      <p>{current.category === 'eye' ? 'Try looking about 20 feet away for 20 seconds.' : 'Try standing, walking briefly, or rolling your shoulders for a couple of minutes.'}</p>
+      <p>{current.category === 'eye' ? 'Try looking about 20 feet away for 20 seconds.' : current.category === 'water' ? 'Consider a drink of water. Follow your own needs and any fluid advice from your clinician.' : 'Try standing, walking briefly, or rolling your shoulders for a couple of minutes.'}</p>
       {current.startedAtUtc && <p role="status">Break started. Choose Done when you are ready.</p>}
       <div className="break-actions" role="group" aria-label="Break actions">
-        <button type="button" className="secondary-button" disabled={busy || !!current.startedAtUtc} onClick={() => void run(() => startBreak(current.category))}>{current.startedAtUtc ? 'Started' : current.category === 'eye' ? 'Start 20-second break' : 'Start 2-minute break'}</button>
+        <button type="button" className="secondary-button" disabled={busy || !!current.startedAtUtc} onClick={() => void run(() => startBreak(current.category))}>{current.startedAtUtc ? 'Started' : current.category === 'eye' ? 'Start 20-second break' : current.category === 'water' ? 'Start water reminder' : 'Start 2-minute break'}</button>
         <button type="button" className="primary-button" disabled={busy} onClick={() => void run(() => finish(() => completeBreak(current.id)))}>Done</button>
         <button type="button" className="secondary-button" disabled={busy} onClick={() => void run(() => finish(() => snoozeBreak(current.id)))}>Snooze 5 min</button>
         <button type="button" className="secondary-button" disabled={busy} onClick={() => void run(() => finish(() => skipBreak(current.id)))}>Skip</button>

@@ -102,6 +102,7 @@ pub fn reminder(app: &AppHandle, state: &DashboardState, reminder: &OpenReminder
     let (title, body) = match reminder.category {
         Category::Eye => ("Time for an eye break", "Try looking about 20 feet away for 20 seconds. Open your break from the Restnaa tray icon."),
         Category::Movement => ("Time for a movement break", "A moment to stand, walk briefly, or roll your shoulders. Open your break from the Restnaa tray icon."),
+        Category::Water => ("A moment for water", "Consider a drink of water. Follow your own needs and any fluid advice from your clinician. Open the reminder from the Restnaa tray icon."),
     };
     send(
         app,

@@ -2,6 +2,14 @@
 
 `scheduler/engine.rs` is the state machine. `scheduler/service.rs` runs one worker thread and owns both the engine and SQLite connection. Commands enter a channel; frontend code never schedules reminders. M3 registers the official single-instance plugin before storage or scheduler initialization. Native delivery happens only after the scheduler commit; see `NATIVE_WINDOWS.md`.
 
+## Water category
+
+Water joins eye and movement in the same worker. The default is enabled with a 60-minute interval, adjustable from 30 to 240 minutes. This range/default is a software preference, not a medically established drinking schedule. NHS guidance recommends regular fluids through the day, and CDC guidance emphasizes individual needs; neither prescribes a universal minute interval. No fluid amounts or hydration outcomes are tracked. References: [NHS hydration guidance](https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/water-drinks-nutrition/), [CDC water guidance](https://www.cdc.gov/healthy-weight-growth/water-healthy-drinks/index.html).
+
+All three independent deadlines share the same suppression/recovery rules, one open reminder globally and at least two minutes between deliveries. Water supports Completed/Skipped/Snoozed/Unanswered; Completed records Done only. Tray and notification-click paths open the same break panel. Automatic panels retain the existing nonactivating and best-effort Windows DND policy.
+
+Migration 4 transactionally rebuilds category constraints to include water and restores all history indexes. A versioned `water_upgrade_pending` marker permits only the new water row to be initialized by Rust from the injected clock, one configured interval into the future, shifted into working hours. The first scheduler save atomically removes the marker and persists all three rows. Missing rows without that marker fail visibly as corruption. Legacy settings default to water enabled/every 60 minutes; the first save persists those fields. Existing eye/movement data and history are retained. Schema 4 cannot be opened by older builds; keep a stopped pre-upgrade backup for rollback.
+
 M4 adds typed `get_history(range: today | sevenDays)` and `clear_history(confirmed: boolean)` requests on the same worker channel, with a main-window-only capability. History uses current local calendar dates and acted-at timestamps, with all-period totals and up to 100 recent events. Successful deletion emits `history-changed` only after its transaction commits. It does not change scheduler revision, deadlines, settings, open reminders, or later outcomes. Failed deletion rolls back and reports an error. `onboardingCompleted` is stored with settings, defaults false for older installs, and becomes true only on a successful Finish setup save. Native preferences and pause state still require their dedicated commands; form saves retain their latest values.
 
 ## Clock and eligibility
@@ -33,7 +41,7 @@ Migration 2 adds `scheduler_runtime` without replacing M1 tables or history. Typ
 
 Migration 3 adds an expression index on `julianday(acted_at_utc), id` and a partial index for invalid acted-at timestamps. History range/order queries and the global invalid-timestamp guard use indexes instead of scanning all stored history. Existing text timestamps, mixed offsets, submillisecond precision guards, local-day counts and the latest-100 limit retain their behavior. The migration is transactional and does not rewrite or delete outcomes. A schema-3 database requires this version or newer; older builds must not open it.
 
-Every transition is applied to a candidate engine, then settings, both deadlines, metadata, and new events commit in one transaction. Only committed changes replace live memory and produce events. A write failure stops that worker's scheduling until app restart, emits a visible error, and rejects subsequent commands. No database polling or silent data reset occurs.
+Every transition is applied to a candidate engine, then settings, all category deadlines, metadata, and new events commit in one transaction. Only committed changes replace live memory and produce events. A write failure stops that worker's scheduling until app restart, emits a visible error, and rejects subsequent commands. No database polling or silent data reset occurs.
 
 ## Typed API
 

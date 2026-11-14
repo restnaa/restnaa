@@ -191,6 +191,7 @@ fn quiet_mode_and_disabled_categories_suppress_delivery() {
     assert_eq!(effects.due.len(), 1);
     assert_eq!(effects.due[0].category, Category::Movement);
     settings.movement_enabled = false;
+    settings.water_enabled = false;
     let effects = engine
         .step(Action::UpdateSettings(settings), &clock)
         .unwrap();

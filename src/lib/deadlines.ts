@@ -1,7 +1,8 @@
 import type { DashboardState, ReminderState } from './types'
+export const reminderEnabled = (state: DashboardState, reminder: ReminderState) => state.settings[({ eye: 'eyeEnabled', movement: 'movementEnabled', water: 'waterEnabled' } as const)[reminder.category]]
 // Presentation only. Eligibility and reminder transitions remain in Rust.
 export function deadlineLabel(state: DashboardState, reminder: ReminderState, now: number): string {
-  if (!(reminder.category === 'eye' ? state.settings.eyeEnabled : state.settings.movementEnabled)) return 'Disabled'
+  if (!reminderEnabled(state, reminder)) return 'Disabled'
   if (state.status === 'paused') return 'After you resume'
   if (state.status === 'quiet') return 'After quiet mode ends'
   if (reminder.openReminderId || state.openReminder?.category === reminder.category) return 'Reminder open'
@@ -14,6 +15,6 @@ export function deadlineLabel(state: DashboardState, reminder: ReminderState, no
   return `Due in ${minutes} min`
 }
 export function showDeadline(state: DashboardState, reminder: ReminderState): boolean {
-  return (reminder.category === 'eye' ? state.settings.eyeEnabled : state.settings.movementEnabled)
+  return reminderEnabled(state, reminder)
     && state.status !== 'paused' && state.status !== 'quiet' && !reminder.openReminderId && state.openReminder?.category !== reminder.category
 }

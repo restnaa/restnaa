@@ -1,5 +1,7 @@
 # Unreleased security and history improvements
 
+- Added optional water reminders, enabled by default every 60 minutes with an independent toggle/interval, native tray/notification paths and distinct local history outcomes. The interval is a software default, not a medical recommendation. Schema 4 preserves prior records and initializes the new deadline without replaying missed water reminders; back up the stopped profile before upgrading.
+
 - Updated bundled SQLite, Tokio and rustix dependencies to address advisory findings; patched the lint tooling's minimatch dependency using a documented temporary override.
 - Pinned CI actions to commit hashes, disabled persisted checkout credentials, bounded job duration and configured weekly Dependabot proposals.
 - Added transactional database schema 3 indexes for history ranges, ordering and invalid-timestamp detection. Existing outcomes and scheduler settings are preserved. Back up the stopped profile before trying this source; older Beta 2 cannot open schema 3.

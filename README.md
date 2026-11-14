@@ -19,6 +19,7 @@ Restnaa uses Tauri 2, Rust, React, TypeScript, Vite, Tailwind CSS and local SQLi
 ## What it does
 
 - Independent eye/movement intervals, selected working days/hours and Quiet mode.
+- Water reminders default to every 60 minutes, with a separate toggle and interval. This is an adjustable reminder preference, not a medical recommendation or intake target.
 - Timed or manual pause, automatic nonactivating break panels and a persistent opt-out.
 - Native notifications, tray fallback, close-to-tray, explicit Quit and opt-in startup.
 - Done, Snooze, Skip and Unanswered recorded separately in local today/seven-day history.

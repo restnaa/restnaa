@@ -15,7 +15,7 @@ pub const STORAGE_FAILURE: &str = "Scheduler stopped because local data could no
 #[derive(Clone, Debug, Serialize)]
 #[serde(tag = "kind", rename_all = "camelCase")]
 pub enum StateEvent {
-    State { state: DashboardState },
+    State { state: Box<DashboardState> },
     Error { message: String },
 }
 
@@ -30,7 +30,7 @@ pub struct Session<C: Clock> {
 impl<C: Clock> Session<C> {
     pub fn open(mut storage: Storage, clock: C) -> Result<(Self, Effects), String> {
         let data = storage
-            .load_scheduler()
+            .load_scheduler(&clock)
             .map_err(|_| STORAGE_FAILURE.to_string())?;
         let (engine, effects) = Engine::restore(data, &clock)?;
         storage
@@ -251,7 +251,7 @@ fn publish(app: &AppHandle, state: &DashboardState, effects: &Effects, automatic
             window,
             "scheduler-state-changed",
             StateEvent::State {
-                state: state.clone(),
+                state: Box::new(state.clone()),
             },
         );
     }

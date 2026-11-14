@@ -10,13 +10,15 @@ export type AppInfoState =
 
 export type Page = 'dashboard' | 'settings' | 'history'
 
-export type Category = 'eye' | 'movement'
+export type Category = 'eye' | 'movement' | 'water'
 export type Outcome = 'completed' | 'skipped' | 'snoozed' | 'unanswered'
 export interface SchedulerSettings {
   eyeEnabled: boolean
   movementEnabled: boolean
   eyeIntervalMinutes: number
   movementIntervalMinutes: number
+  waterEnabled: boolean
+  waterIntervalMinutes: number
   /** Monday = 0, Sunday = 6. Times use HH:mm:ss. */
   workDays: number[]
   workStartLocal: string
@@ -55,7 +57,7 @@ export interface DashboardState {
   revision: number
   status: 'active' | 'paused' | 'outsideWorkHours' | 'quiet' | 'disabled'
   settings: SchedulerSettings
-  reminders: [ReminderState, ReminderState]
+  reminders: [ReminderState, ReminderState, ReminderState]
   openReminder: OpenReminder | null
 }
 export type PauseRequest = { kind: 'minutes'; minutes: 30 | 60 | 120 } | { kind: 'untilTomorrow' } | { kind: 'manual' }
@@ -78,8 +80,8 @@ export interface LocalHistory {
   fromDate: string
   throughDate: string
   asOfUtc: string
-  categories: [CategoryCounts, CategoryCounts]
-  days: { date: string; categories: [CategoryCounts, CategoryCounts] }[]
+  categories: [CategoryCounts, CategoryCounts, CategoryCounts]
+  days: { date: string; categories: [CategoryCounts, CategoryCounts, CategoryCounts] }[]
   recent: BreakEvent[]
   totalEvents: number
   recentTruncated: boolean
