@@ -53,9 +53,14 @@ test('history day disclosure, native toggles and Quit retain actual command path
   expect(await commandCalls(page,'quit_app')).toHaveLength(1)
 })
 
-test('light palette and supplied logo load under the release CSP',async({page})=>{
+test('dark palette and supplied logo load under the release CSP regardless of OS preference',async({page})=>{
   const {readFileSync}=await import('node:fs')
-  const csp=JSON.parse(readFileSync('src-tauri/tauri.conf.json','utf8')).app.security.csp
+  const config=JSON.parse(readFileSync('src-tauri/tauri.conf.json','utf8'))
+  const csp=config.app.security.csp
+  for (const window of config.app.windows) {
+    expect(window.theme).toBe('Dark')
+    expect(window.backgroundColor).toBe('#190f17')
+  }
   const errors:string[]=[];page.on('console',message=>{if(message.type()==='error')errors.push(message.text())})
   await page.route('http://127.0.0.1:1420/',async route=>{
     const response=await route.fetch()
@@ -63,8 +68,12 @@ test('light palette and supplied logo load under the release CSP',async({page})=
   })
   await installDesktopFixture(page);await page.goto('/')
   await expect(page.getByRole('heading',{level:1})).toBeVisible()
-  expect(await page.locator('.app-shell').evaluate(element => getComputedStyle(element).backgroundColor)).toBe('rgb(240, 248, 234)')
-  expect(await page.locator('h1').evaluate(element => getComputedStyle(element).color)).toBe('rgb(38, 12, 26)')
+  for (const colorScheme of ['light', 'dark'] as const) {
+    await page.emulateMedia({colorScheme})
+    expect(await page.locator('.app-shell').evaluate(element => getComputedStyle(element).backgroundColor)).toBe('rgb(25, 15, 23)')
+    expect(await page.locator('h1').evaluate(element => getComputedStyle(element).color)).toBe('rgb(240, 248, 234)')
+    expect(await page.locator('html').evaluate(element => getComputedStyle(element).colorScheme)).toBe('dark')
+  }
   expect(await page.locator('.page-header').evaluate(element => getComputedStyle(element, '::before').display)).toBe('none')
   const brand = page.locator('.brand-mark')
   await expect(brand).toBeVisible()

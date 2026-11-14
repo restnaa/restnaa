@@ -29,17 +29,26 @@ Windows DND detection is best effort. Use app Pause or Quiet mode for guaranteed
 
 ## Screenshots
 
-The light interface uses a pale background with plum accents. Captured from the Windows desktop build of Restnaa 0.1.4. These are actual app views from a local test profile; counts reflect that profile. Captures show the app content without Windows title bars.
+The current source uses a dark plum interface with pale text. These screenshots show the production frontend in Playwright/Edge with synthetic test data, not personal history or an installed Windows session. Counts, dates and scheduler states are demonstration fixtures. Captures show app content without native title bars. The published Beta 3 installer still uses the previous light theme.
 
 ### Dashboard
 
-![Restnaa dashboard with eye and movement reminders, schedule, pause controls and today's outcomes](docs/screenshots/dashboard.png)
+![Dark Restnaa dashboard with eye, movement and water reminders, schedule, pause controls and demonstration outcomes](docs/screenshots/dashboard.png)
 
 ### Break popup
 
 The app's eye-break panel offers Done, Snooze and Skip. This is separate from the native Windows notification banner; Windows banners may be suppressed by Do Not Disturb. A Windows banner capture is not included here.
 
 <img src="docs/screenshots/eye-break.png" alt="Restnaa eye-break popup with Done, Snooze 5 min, Skip and Close for now" width="440">
+
+<details>
+<summary>Movement and water panels</summary>
+
+<img src="docs/screenshots/movement-break.png" alt="Dark Restnaa movement-break panel with Done, Snooze, Skip and Close controls" width="440">
+
+<img src="docs/screenshots/water-break.png" alt="Dark Restnaa optional water reminder with Done, Snooze, Skip and Close controls" width="440">
+
+</details>
 
 <details>
 <summary>Settings and first-run setup</summary>

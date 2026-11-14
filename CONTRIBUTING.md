@@ -41,7 +41,7 @@ Use semantic controls, keyboard access, visible focus, sufficient contrast and r
 
 ## Visual identity
 
-Use the supplied artwork in `public/brand/`. `restnaa-logo.png` is the original transparent logo; `restnaa-lockup.png` places it on a light background for readable documentation. The crescent-and-eye `restnaa-mark.png` is used in the app, favicon and Windows icons. Use `#F0F8EA` as the dominant background, `#260C1A` for primary text/actions and `#432E36` for secondary details in `src/styles.css`. Keep Dashboard, Settings, History and break panels flat and simple, without decorative landscapes, gradients or oversized badges. Preserve visible focus, contrast, reduced motion and text labels for state.
+Use the supplied artwork in `public/brand/`. `restnaa-logo.png` is the original transparent logo; `restnaa-lockup.png` places it on a light background for readable documentation. The crescent-and-eye `restnaa-mark.png` is used in the app, favicon and Windows icons. The app uses a dark plum theme: `#190F17` background, `#241923` surfaces and `#F0F8EA` primary text/actions, with a pale tile keeping the original logo readable. Define colors in `src/styles.css`; native controls use the dark color scheme. Keep Dashboard, Settings, History and break panels flat and simple, without decorative landscapes, gradients or oversized badges. Preserve visible focus, contrast, reduced motion and text labels for state.
 
 ## License and conduct
 
