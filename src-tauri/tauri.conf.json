@@ -12,8 +12,8 @@
   },
   "app": {
     "windows": [
-      { "label": "main", "title": "Restnaa", "width": 1200, "height": 820, "minWidth": 720, "minHeight": 600, "visible": false },
-      { "label": "break", "title": "Restnaa — Break", "url": "index.html?window=break", "width": 440, "height": 460, "minWidth": 360, "minHeight": 400, "visible": false, "focus": false, "resizable": false, "skipTaskbar": true }
+      { "label": "main", "title": "Restnaa", "width": 1200, "height": 820, "minWidth": 720, "minHeight": 600, "theme": "Dark", "backgroundColor": "#190f17", "visible": false },
+      { "label": "break", "title": "Restnaa — Break", "url": "index.html?window=break", "width": 440, "height": 460, "minWidth": 360, "minHeight": 400, "theme": "Dark", "backgroundColor": "#190f17", "visible": false, "focus": false, "resizable": false, "skipTaskbar": true }
     ],
     "security": {
       "capabilities": ["main", "break"],

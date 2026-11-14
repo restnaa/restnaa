@@ -117,3 +117,27 @@ Successful certificate-store inspection found zero code-signing certificates in 
 The maintainer explicitly deferred signing and authorized publishing an unsigned beta. This supersedes the signing prerequisite in the preceding entry; it does not establish installed or clean-machine acceptance. Beta publication now requires explicit NotSigned inspection on both executable and installer, records both actual statuses, and labels the public title/notes unsigned. Invalid or unexpected signature states still block publication. The future trusted-signature helper and its regression tests remain intact.
 
 Updated Beta 3 notes and installation/rollback guidance for schema 4. powershell -NoProfile -File scripts/test-release.ps1 passed, including acceptance of a real unsigned fixture and rejection of unexpected signature states. Actionlint passed CI/release workflows and git diff --check passed. Application code is unchanged since the combined-source 68 frontend, 40 UI and 63 Rust tests recorded above. Hosted push CI 43595792755 succeeded at e96d650; final tagged-source build/publication must be observed separately. Installed native, clean-machine, signing and dependency-notice review limitations remain explicit.
+
+## Published unsigned Beta 3 verification (2026-11-14)
+
+PR 19 passed Windows CI 43597348622 and was merged by a normal fast-forward push to main. Published annotated tag v0.1.4-beta.3 at source 664f51c4d670ed019e23d283e1a538e86e2f4cac. Release workflow 43597867546 passed both build and publish jobs, including all frontend/Rust checks, NSIS export, explicit NotSigned checks, source/hash verification and eight-asset publication. Public API confirmed draft=false, prerelease=true, with the title identifying an unsigned Windows beta: https://github.com/restnaa/restnaa/releases/tag/v0.1.4-beta.3.
+
+The local npm run package:windows also passed from that clean source: 4,116,046 bytes, SHA-256 b44438c66231640a5392cc0e0308225666a101d5a700b6754adce937f1a74385; application and installer both NotSigned. This local artifact is separate from the hosted download.
+
+Downloaded the public installer, checksum and manifest independently. Verified source revision, clean-source flag, 4,115,904-byte size and SHA-256 9d1f0f11e1af22077d4e6fc3d7a43d1dd513c7d1683916645be2b411173c5358 against both manifest and checksum file. Real local Authenticode inspection of that downloaded installer returned NotSigned, matching the manifest; the hosted build also recorded the executable as NotSigned. The initial PowerShell download stalled and was stopped; bounded curl.exe downloads succeeded. No installation of this exact hosted artifact or new clean-machine/native acceptance was performed. Earlier user feedback and smoke evidence do not certify this artifact. Signing remains deferred and the existing pending acceptance risks remain.
+
+## Dark theme source update (2026-11-14, unreleased)
+
+Changed shared CSS to dark plum backgrounds (#190F17/#241923), pale #F0F8EA text/actions, accessible status/error colors and visible focus. Preserved layout, copy and command paths. The original logo has a pale tile for contrast. Both Tauri windows request Dark theme and matching background color. No new capability or scheduler behavior was added.
+
+Executed successfully: npm run lint; npm run typecheck; npm test -- --run --maxWorkers=1 (68 tests); npm run test:ui -- --workers=2 (40 tests, including production build, WCAG, forced colors, keyboard, reduced motion and compact/high-DPI coverage). After adding native-window configuration assertions, reran the dark palette tests (2 passed), lint and typecheck. cargo check --manifest-path src-tauri/Cargo.toml --all-targets --locked passed in the repository-local x64 BuildTools environment. git diff --check passed.
+
+Browser plugin unavailable; used repository Playwright/Edge with test IPC fixtures. Visually compared the prior light reference and dark dashboard, settings and compact dashboard for typography, layout, palette, logo contrast and control hierarchy. Fixture counts are not installed scheduler evidence. Existing README screenshots depict the previous released light UI and were not replaced with fixture captures. No new installer, release, installed native-frame or clean-machine validation was performed for this update.
+
+## Dark screenshot refresh (2026-11-14, unreleased source)
+
+Replaced all four README gallery images and added movement/water break-panel captures under docs/screenshots. These are production frontend renders in Playwright/Edge with the repository's synthetic IPC/history fixtures, not installed Windows captures or personal records. README explicitly labels fixture counts/dates/state and says published Beta 3 remains light. No native Windows banner image is claimed.
+
+A temporary capture scenario navigated Dashboard, Settings, History and all three break routes, checked each heading, and captured full content (1200px main views, 440px break panels). It passed, then was removed so ordinary CI cannot overwrite tracked screenshots or dirty tagged release sources. Inspected all six images for dark palette, logo contrast, typography, readable controls and clipping. Full UI regression and lint/typecheck results are recorded with the pushed change; the previous dark-theme entry records the unchanged application unit/native configuration checks. No new installer or release was created.
+
+Final screenshot-refresh checks: npm run test:ui -- --workers=2 passed all 40 tests; npm run lint and npm run typecheck passed; git diff --check passed.
