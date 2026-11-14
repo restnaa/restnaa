@@ -31,6 +31,7 @@ try {
         product='Restnaa';version=$config.version;releaseCandidate=$true;platform='windows-x86_64';identifier=$config.identifier
         generatedAtUtc=[DateTime]::UtcNow.ToString('o');installer=$filename;bytes=(Get-Item -LiteralPath $installer).Length;sha256=$hash
         authenticodeStatus=(Get-ReleaseSignatureStatus -LiteralPath $installer)
+        binaryAuthenticodeStatus=(Get-ReleaseSignatureStatus -LiteralPath (Join-Path $repoRoot 'src-tauri/target/release/restnaa.exe'))
         webview2='Evergreen required; download bootstrapper may need internet if runtime is absent'
         lockfiles=@{npm=(Get-Sha256 'package-lock.json');cargo=(Get-Sha256 'src-tauri/Cargo.lock')}
         audit='docs/RELEASE_AUDIT.md';limitations='docs/KNOWN_LIMITATIONS.md'

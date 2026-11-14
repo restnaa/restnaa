@@ -49,6 +49,13 @@ jobs:
           if($LASTEXITCODE -ne 0){throw 'Packaging failed.'}
           $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
           "directory=release/restnaa-$version" >> $env:GITHUB_OUTPUT
+      - name: Require trusted timestamped signatures before publication
+        shell: pwsh
+        run: |
+          . ./scripts/release-functions.ps1
+          $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
+          Assert-ReleaseSignature -LiteralPath 'src-tauri/target/release/restnaa.exe'
+          Assert-ReleaseSignature -LiteralPath "release/restnaa-$version/Restnaa_$($version)_x64-setup.exe"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: windows-beta
@@ -79,6 +86,8 @@ jobs:
           assert manifest['sourceDirty'] is False, 'Release was built from a dirty worktree'
           assert manifest['releaseCandidate'] is True
           assert manifest['identifier'] == 'com.restnaa.desktop'
+          assert manifest['authenticodeStatus'] == 'Valid', 'Installer is not validly signed'
+          assert manifest['binaryAuthenticodeStatus'] == 'Valid', 'Application is not validly signed'
           installer = root / manifest['installer']
           assert installer.name == f"Restnaa_{manifest['version']}_x64-setup.exe"
           assert installer.stat().st_size == manifest['bytes']

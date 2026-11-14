@@ -24,6 +24,20 @@ try {
     $missingRejected=$false
     try { Get-ReleaseSignatureStatus (Join-Path $testRoot 'missing.exe') | Out-Null } catch { $missingRejected=$true }
     if(-not $missingRejected){throw 'Missing signature input was silently accepted.'}
+    $unsignedRejected=$false
+    try { Assert-ReleaseSignature -LiteralPath $sample } catch { $unsignedRejected=$true }
+    if(-not $unsignedRejected){throw 'Release gate accepted a real unsigned file.'}
+    foreach($status in @('NotSigned','HashMismatch','NotTrusted','UnknownError')) {
+        $rejected=$false
+        $inspect = {param($path) [pscustomobject]@{Status=$status;SignerCertificate=@{};TimeStamperCertificate=@{}}}.GetNewClosure()
+        try { Assert-ReleaseSignature 'fixture' $inspect } catch { $rejected=$true }
+        if(-not $rejected){throw "Release gate accepted $status."}
+    }
+    $untimestampedRejected=$false
+    try { Assert-ReleaseSignature 'fixture' {param($path) [pscustomobject]@{Status='Valid';SignerCertificate=@{};TimeStamperCertificate=$null}} } catch { $untimestampedRejected=$true }
+    if(-not $untimestampedRejected){throw 'Release gate accepted a missing timestamp.'}
+    Assert-ReleaseSignature 'fixture' {param($path) [pscustomobject]@{Status='Valid';SignerCertificate=@{};TimeStamperCertificate=@{}}}
+    Write-Output 'PASS: release gate rejects unsigned, invalid/untrusted and untimestamped signatures; accepts valid timestamped inspection metadata (synthetic positive fixture only).'
     Write-Output 'PASS: missing input rejected; SHA-256 vector; incompatible security-module autoload reproduced; explicit host module returned NotSigned.'
 } finally {
     $env:PSModulePath=$originalModulePath
