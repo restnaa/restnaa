@@ -1,3 +1,15 @@
+# Restnaa 0.1.4 Beta 4 - unsigned Windows beta
+
+Beta 4 includes the dark theme merged in PR 21: dark plum backgrounds, pale text/actions, accessible status colors, a readable logo tile, and dark native window settings for both dashboard and break windows. The README gallery now covers Dashboard, Settings, History and all three break panels; screenshots use explicitly labelled synthetic test data.
+
+This installer is intentionally **unsigned**. Verify the matching SHA-256 checksum; it detects mismatches and does not establish publisher trust. Windows may show an unknown publisher or SmartScreen warning. Do not disable security protections.
+
+Quit Restnaa completely before installing, including any development build. Application version remains 0.1.4 and the installer filename remains `Restnaa_0.1.4_x64-setup.exe`; download it specifically from the Beta 4 release, not an older download. Beta 4 retains Beta 3's water reminders and schema 4. Back up the stopped `%APPDATA%\com.restnaa.desktop` profile before upgrading. Beta 2 cannot open schema 4; rolling back requires restoring the pre-upgrade backup.
+
+Dark-theme source validation passed 68 frontend unit tests, 40 browser UI tests, lint, typecheck and Cargo check. Tagged hosted checks and installer creation run separately before publication. Clean Windows 10/11, installed dark title bars, notification banner/click/DND/denial, sign-in startup, physical sleep/wake, screen reader and prolonged-use validation remain pending. Screenshots and automated checks do not certify installed OS behavior.
+
+The Beta 3 notes below describe the previous light-theme release.
+
 # Restnaa 0.1.4 Beta 3 - unsigned Windows beta
 
 - Added optional water reminders, enabled by default every 60 minutes with an independent toggle/interval, native tray/notification paths and distinct local history outcomes. The interval is a software default, not a medical recommendation. Schema 4 preserves prior records and initializes the new deadline without replaying missed water reminders; back up the stopped profile before upgrading.
