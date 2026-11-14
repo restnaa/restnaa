@@ -64,6 +64,14 @@ test('expired actions show the Rust error and pending actions cannot be submitte
   expect(await screen.findByRole('alert')).toHaveTextContent('stale, expired')
 })
 
+test('loading status copy uses a real ellipsis and no mis-decoded text', () => {
+  vi.mocked(useScheduler).mockReturnValue({ status: 'loading' })
+  render(<BreakPanel />)
+  const line = screen.getByText(/Checking your current break/)
+  expect(line.textContent).toBe('Checking your current break…')
+  expect(line.textContent).not.toContain('â€¦')
+})
+
 test('no current reminder exposes no outcome buttons', () => {
   vi.mocked(useScheduler).mockReturnValue({ status: 'ready', state: schedulerState() })
   render(<BreakPanel />)
